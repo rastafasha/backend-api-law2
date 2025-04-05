@@ -31,6 +31,7 @@ class Profile extends Model
         'status',
         'rating',
         'description',
+        'gender',
     ];
 
     // const VERIFIED = 'VERIFIED';

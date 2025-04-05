@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Speciality;
 use Illuminate\Http\Request;
+use App\Http\Resources\Profile\ProfileResource;
+use App\Http\Resources\Profile\ProfileCollection;
 
 class SpecialityController extends Controller
 {
@@ -17,7 +19,7 @@ class SpecialityController extends Controller
         $specialities = $specialities->map(function ($speciality) {
             $speciality->count_profiles = Profile::where('speciality_id', $speciality->
                 id)
-                ->where('status', 'VERIFIED')
+                ->where('status', 2)
                 ->count();
             return $speciality;
         });
@@ -48,7 +50,7 @@ class SpecialityController extends Controller
     public function showWithUsers(Speciality $speciality)
     {
         $users = Profile::where('speciality_id', $speciality->id)
-        ->where('status', 'VERIFIED')
+        ->where('status', 2)
         ->get();
         if (!$speciality) {
             return response()->json([
@@ -66,7 +68,8 @@ class SpecialityController extends Controller
             'code' => 200,
             'status' => 'success',
             'speciality' => $speciality,
-            'users' => $users,
+            // 'users' => $users,
+            "users" => ProfileCollection::make($users),
         ], 200);
     }
 

@@ -17,10 +17,13 @@ class ProfileResource extends JsonResource
     {
         return [
             "id"=>$this->resource->id,
+            "user_id"=>$this->resource->user_id,
+            "speciality_id"=>$this->resource->speciality_id,
             "nombre"=>$this->resource->nombre,
             "surname"=>$this->resource->surname,
             "full_name"=> $this->resource->name.' '.$this->resource->surname,
             "email"=>$this->resource->email,
+            "gender"=>$this->resource->gender,
             "n_doc"=>$this->resource->n_doc,
             "direccion"=>$this->resource->direccion,
             "pais"=>$this->resource->pais,

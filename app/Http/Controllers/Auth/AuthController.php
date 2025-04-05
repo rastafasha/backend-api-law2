@@ -56,8 +56,8 @@ class AuthController extends Controller
             // 'user' => $user,
             'user'=>[
                 "id"=>auth('api')->user()->id,
-                "username"=>auth('api')->user()->name,
-                "avatar"=>auth('api')->user()->avatar,
+                "username"=>auth('api')->user()->username,
+                // "avatar"=>auth('api')->user()->avatar,
                 // "rolename"=>auth('api')->user()->rolename,
                 "roles"=>auth('api')->user()->getRoleNames(),
                 "email"=>auth('api')->user()->email,
@@ -160,6 +160,7 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 180,
             // 'user'=>auth('api')->user(),
             'user'=>[
+                // "avatar"=>auth('api')->user()->avatar,
                 "username"=>auth('api')->user()->username,
                 "email"=>auth('api')->user()->email,
                 "permissions"=>$permissions,
