@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Models\Laboratory;
+namespace App\Models\Document;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Laboratory extends Model
+class Document extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable =[
-        'appointment_id',
+        'user_id',
+        'client_id',
         'name_file',
         'size',
         'time',
@@ -28,6 +30,15 @@ class Laboratory extends Model
         $base = log($size) / log(1024);
         $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
         return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
+    }
+
+    public function clientes()
+    {
+        return $this->hasMany(User::class, 'cliente_id');
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'cliente_id');
     }
 
     

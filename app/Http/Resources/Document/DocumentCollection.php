@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Laboratory;
+namespace App\Http\Resources\Document;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class LaboratoryCollection extends ResourceCollection
+class DocumentCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class LaboratoryCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> LaboratoryResource::collection($this->collection)
+            "data"=> DocumentResource::collection($this->collection)
         ];
     }
 }

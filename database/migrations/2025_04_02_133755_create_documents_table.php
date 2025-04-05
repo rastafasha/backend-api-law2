@@ -16,13 +16,21 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('file')->nullable();
-            $table->boolean('is_active')->nullable();
+            $table->string('name_file', 250);
+            $table->string('size', 50);
+            $table->string('resolution', 50);
+            $table->string('file', 250);
+            $table->string('type', 50);
+            // Provider IDs
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
+
+            // Foreign keys for provider relationships
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('client_id')->references('id')->on('users')->nullOnDelete();
         });
     }
 

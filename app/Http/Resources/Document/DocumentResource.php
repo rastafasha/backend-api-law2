@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Laboratory;
+namespace App\Http\Resources\Document;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LaboratoryResource extends JsonResource
+class DocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,8 @@ class LaboratoryResource extends JsonResource
     {
         return[
             'id'=>$this->resource-> id,
-            'appointment_id'=>$this->resource->appointment_id,
+            'user_id'=>$this->resource->user_id,
+            'client_id'=>$this->resource->client_id,
             'name_file'=> $this->resource->name_file,
                     'size'=> $this->resource->size,
                     'resolution'=> $this->resource->resolution,

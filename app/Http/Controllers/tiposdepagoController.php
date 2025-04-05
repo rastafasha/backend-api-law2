@@ -167,7 +167,7 @@ class tiposdepagoController extends Controller
 
     public function paymentmethodsbyUser ($user_id)
     {
-        $tiposdepagosuser = Tiposdepago::where('user_id', $user_id)->first();
+        $tiposdepagosuser = Tiposdepago::where('user_id', $user_id)->get();
 
         if (!$tiposdepagosuser) {
             return response()->json([

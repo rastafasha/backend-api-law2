@@ -45,7 +45,7 @@ class ProfileSeeder extends Seeder
                     'item_tarifa' => 'Consulta Inicial',
                     'precio' => 150
                 ]]),
-                'rating' => null,
+                'rating' => 3,
                 'speciality_id' => 2,
                 'user_id' => 3,
             ],
@@ -80,8 +80,8 @@ class ProfileSeeder extends Seeder
                     'item_tarifa'=> 'Consulta Inicial',
                     'precio' => 30
                 ]]),
-                'rating' => null,
-                'speciality_id' => null,
+                'rating' => 2,
+                'speciality_id' => 2,
                 'user_id' => 4,
             ],
             [
@@ -111,7 +111,7 @@ class ProfileSeeder extends Seeder
                     ]
                 ]),
                 'precios' => null,
-                'rating' => null,
+                'rating' => 1,
                 'speciality_id' => null,
                 'user_id' => 5,
             ],
@@ -143,7 +143,7 @@ class ProfileSeeder extends Seeder
                     ]
                 ]),
                 'precios' => null,
-                'rating' => null,
+                'rating' =>2,
                 'speciality_id' => null,
                 'user_id' => 6,
             ],
