@@ -36,22 +36,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
-        'n_doc',
-        //
-        'surname',
-        'mobile',
-        'birth_date',
-        'gender',
-        'education',
-        'designation',
-        'address',
-        'avatar',
-        'speciality_id',
-        'location_id',
-        'status',
 
     ];
 
@@ -155,6 +142,11 @@ class User extends Authenticatable implements JWTSubject
     public function location()
     {
         return $this->hasMany(Location::class, 'location_id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(profile::class);
     }
 
     

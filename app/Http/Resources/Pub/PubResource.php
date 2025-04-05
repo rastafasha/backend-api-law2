@@ -18,8 +18,8 @@ class PubResource extends JsonResource
         return [
             "id" =>$this->resource->id,
             "state" =>$this->resource->state,
-            // "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
-            "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
+            "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
+            // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
         ];
     }

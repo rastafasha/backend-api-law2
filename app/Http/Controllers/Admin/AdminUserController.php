@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
@@ -39,11 +40,12 @@ class AdminUserController extends Controller
         //    }
         
         $users = User::select([
-            "id", "name", "email", "rolename"
+            "id", "username", "email"
         ])
-            ->withCount([
+            ->with([
                 // "payments",
-                "profiles",
+                "profile",
+                "roles",
             ])
             ->orderBy('id', 'desc')
             ->get();
@@ -51,7 +53,8 @@ class AdminUserController extends Controller
             return response()->json([
                 'code' => 200,
                 'status' => 'Listar todos los Usuarios',
-                'users' => $users,
+                'users' => $users
+                // 'users' => UserCollection::make($users)
             ], 200);
     }
 
@@ -73,12 +76,16 @@ class AdminUserController extends Controller
         }
 
         $user = User::select([
-            "id", "name", "email", "rolename","created_at"
+            "id", "username", "email", "created_at"
         ])
             // ->with([
             //     // "payments",
             //     "profiles",
             // ])
+            ->with([
+                // "payments",
+                "profile",
+            ])
             ->find($user);
 
         return response()->json([
