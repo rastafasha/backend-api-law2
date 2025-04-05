@@ -164,4 +164,22 @@ class tiposdepagoController extends Controller
                 'tiposdepagos' => $tiposdepagos,
             ], 200);
     }
+
+    public function paymentmethodsbyUser ($user_id)
+    {
+        $tiposdepagosuser = Tiposdepago::where('user_id', $user_id)->first();
+
+        if (!$tiposdepagosuser) {
+            return response()->json([
+                'message' => 'tiposdepagosuser not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'tiposdepagosuser' => $tiposdepagosuser,
+            // 'tiposdepagos' => tiposdepagosResource::make($tiposdepagos),
+        ], 200);
+    }
 }

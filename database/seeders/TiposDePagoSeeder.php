@@ -22,7 +22,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'mercantil',
                 'bankAccountType' => 'Corriente',
                 'email' => null,
-                'user' => 'das',
+                'user_id' => 3,
                 'status' => 'ACTIVE',
                 'created_at' => '2023-10-10 05:32:48',
                 'updated_at' => '2023-10-10 06:04:50'
@@ -36,7 +36,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => null,
                 'bankAccountType' => null,
                 'email' => 'malcolm@gmail.com',
-                'user' => null,
+                'user_id' => 3,
                 'status' => 'INACTIVE',
                 'created_at' => '2023-10-10 05:44:43',
                 'updated_at' => '2024-01-11 00:40:17'
@@ -50,7 +50,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'BOFA',
                 'bankAccountType' => null,
                 'email' => 'ddsa',
-                'user' => null,
+                'user_id' => 4,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-01-10 02:07:20',
                 'updated_at' => '2024-01-10 02:07:43'
@@ -64,7 +64,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Square',
                 'bankAccountType' => null,
                 'email' => null,
-                'user' => null,
+                'user_id' => 4,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-01-16 03:10:34',
                 'updated_at' => '2024-01-16 03:14:45'
@@ -78,7 +78,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Mercantil Pago M',
                 'bankAccountType' => null,
                 'email' => null,
-                'user' => null,
+                'user_id' => 5,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-01-16 03:17:12',
                 'updated_at' => '2024-01-16 03:17:16'
@@ -92,7 +92,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Venezuela',
                 'bankAccountType' => null,
                 'email' => null,
-                'user' => null,
+                'user_id' => 5,
                 'status' => 'INACTIVE',
                 'created_at' => '2024-05-17 00:27:54',
                 'updated_at' => '2024-05-17 00:27:54'
@@ -106,7 +106,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Santander Santiago',
                 'bankAccountType' => null,
                 'email' => null,
-                'user' => null,
+                'user_id' => 3,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-05-17 05:13:27',
                 'updated_at' => '2024-05-17 05:15:47'
@@ -120,7 +120,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Provincial',
                 'bankAccountType' => null,
                 'email' => null,
-                'user' => null,
+                'user_id' => 4,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-05-17 05:16:25',
                 'updated_at' => '2024-05-17 05:16:29'

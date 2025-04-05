@@ -22,14 +22,20 @@ class CreateTiposdepagosTable extends Migration
             $table->string('bankName', 250)->nullable();
             $table->string('bankAccountType', 250)->nullable();
             $table->string('email', 250)->nullable();
-            $table->string('user', 250)->nullable();
+            // $table->string('user', 250)->nullable();
             $table->enum('status', [
                 'ACTIVE', 'INACTIVE'
                 ])->default('INACTIVE');
             
             
+            // Provider IDs
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
+
+            // Foreign keys for provider relationships
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
         });
     }
 

@@ -25,6 +25,7 @@ class Tiposdepago extends Model
         'ciorif',
         'telefono',
         'status',
+        'user_id',
     ];
 
     const ACTIVE = 'ACTIVE';
@@ -35,6 +36,11 @@ class Tiposdepago extends Model
         return [
             self::ACTIVE, self::INACTIVE
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }
