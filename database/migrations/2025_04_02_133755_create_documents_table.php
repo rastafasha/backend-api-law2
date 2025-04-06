@@ -16,10 +16,10 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name_category', 250);
+            $table->string('name_category', 250)->nullable();
             $table->string('name_file', 250);
             $table->string('size', 50);
-            $table->string('resolution', 50);
+            $table->string('resolution', 50)->nullable();
             $table->string('file', 250);
             $table->string('type', 50);
             // Provider IDs

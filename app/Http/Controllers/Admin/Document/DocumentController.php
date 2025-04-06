@@ -105,30 +105,10 @@ class DocumentController extends Controller
     public function show($id)
     {
         $document = Document::findOrFail($id);
-        // $document = Document::findOrFail($request->user_id);
-        $document_attention = $document->attention;
-        if($document_attention){
-            return response()->json([
-                "appointment_attention"=>[
-                    "id"=>$document_attention->id,
-                    "description"=>$document_attention->description,
-                    "laboratory"=>$document_attention->laboratory,
-                    "receta_medica"=>$document_attention->receta_medica ? json_decode($document_attention->receta_medica) : [],
-                    "created_at" => $document_attention->created_at->format("Y-m-d h:i A"),
-                ]
-            ]);
-        }else{
-            return response()->json([
-                // "laboratory" => $document,
-                "document_attention"=>[
-                    "id"=>NULL,
-                    "description"=>NULL,
-                    "laboratory"=>1,
-                    "receta_medica"=> [],
-                    "created_at" => NULL,
-                ]
-            ]);
-        }
+
+        return response()->json([
+            "document" => DocumentResource::make($document),
+        ]);
         
     }
 
