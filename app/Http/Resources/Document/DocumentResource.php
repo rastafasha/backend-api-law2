@@ -19,6 +19,7 @@ class DocumentResource extends JsonResource
             'user_id'=>$this->resource->user_id,
             'client_id'=>$this->resource->client_id,
             'name_file'=> $this->resource->name_file,
+            'name_category'=> $this->resource->name_category,
                     'size'=> $this->resource->size,
                     'resolution'=> $this->resource->resolution,
                     'file'=> env("APP_URL")."storage/".$this->resource->file,

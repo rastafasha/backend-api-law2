@@ -2,15 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\Admin\Document\DocumentController;
 
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('document.index');
 
 Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
-Route::get('/document/showbyuser/{user}', [DocumentController::class, 'documentByUser'])
-    ->name('document.documentByUser');
+Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
+    ->name('document.showByUser');
 
 Route::get('/document/recientes', [DocumentController::class, 'recientes'])
     ->name('document.recientes');
@@ -18,7 +18,7 @@ Route::get('/document/recientes', [DocumentController::class, 'recientes'])
 Route::get('/document/destacados', [DocumentController::class, 'destacados'])
     ->name('document.destacados');
 
-Route::post('/document/store', [DocumentController::class, 'documentStore'])
+Route::post('/document/store', [DocumentController::class, 'store'])
     ->name('document.store');
 
 Route::put('/document/update/{document}', [DocumentController::class, 'documentUpdate'])

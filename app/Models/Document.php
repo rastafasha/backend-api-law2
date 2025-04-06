@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,5 +33,17 @@ class Document extends Model
         return self::where('title', 'like', "%$query%")
         ->orWhere('description', 'like', "%$query%")
         ->get();
+    }
+
+    public function setCreatedAtAttribute($value)
+    {
+    	date_default_timezone_set('America/Caracas');
+        $this->attributes["created_at"]= Carbon::now();
+    }
+
+    public function setUpdatedAtAttribute($value)
+    {
+    	date_default_timezone_set("America/Caracas");
+        $this->attributes["updated_at"]= Carbon::now();
     }
 }

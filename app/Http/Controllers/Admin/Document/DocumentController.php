@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin\Document;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Laboratory\Laboratory;
+use App\Models\Document\Document;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Appointment\AppointmentAttention;
-use App\Http\Resources\Laboratory\LaboratoryResource;
-use App\Http\Resources\Laboratory\LaboratoryCollection;
+use App\Http\Resources\Document\DocumentResource;
+use App\Http\Resources\Document\DocumentCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DocumentController extends Controller
@@ -21,21 +20,34 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
-        $speciality_id = $request->speciality_id;
-        $name_doctor = $request->search;
-        $date = $request->date;
-        //
-        $appointments = Appointment::filterAdvance($speciality_id, $name_doctor, $date)
-                            ->orderBy("id", "desc")
-                            ->where("status", 2)
-                            ->where("laboratory", 2)
-                            ->paginate(10);
+        $documents  = Document::orderBy('created_at', 'DESC')
+        ->get();
+
+
         return response()->json([
-            "total"=>$appointments->total(),
-            "appointments"=> AppointmentCollection::make($appointments)
-        ]);
+            'code' => 200,
+            'status' => 'Listar pubs',
+            "documents" => DocumentCollection::make($documents ),
+        ], 200); 
 
     }
+    // public function index(Request $request)
+    // {
+    //     $speciality_id = $request->speciality_id;
+    //     $name_doctor = $request->search;
+    //     $date = $request->date;
+    //     //
+    //     $documents = Appointment::filterAdvance($speciality_id, $name_doctor, $date)
+    //                         ->orderBy("id", "desc")
+    //                         ->where("status", 2)
+    //                         ->where("laboratory", 2)
+    //                         ->paginate(10);
+    //     return response()->json([
+    //         "total"=>$documents->total(),
+    //         "appointments"=> AppointmentCollection::make($documents)
+    //     ]);
+
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -45,9 +57,9 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        // $appointment = Appointment::findOrFail($request->appointment_id);
+        // $document = Appointment::findOrFail($request->user_id);
 
-        $user_is_valid = Laboratory::where("appointment_id", "<>", $request->appointment_id)->first();
+        $user_is_valid = Document::where("user_id", "<>", $request->user_id)->first();
 
         // if($user_is_valid){
         //     return response()->json([
@@ -61,15 +73,16 @@ class DocumentController extends Controller
             $size = $file->getSize();
             $name_file = $file->getClientOriginalName();
             $data = null;
-            if(in_array(strtolower($extension), ["jpeg", "bmp","jpg","png" ])){
+            if(in_array(strtolower($extension), ["jpeg", "bmp","jpg","png",".pdf" ])){
                 $data = getImageSize($file);
                 
             }
-            $path = Storage::putFile("laboratories", $file);
+            $path = Storage::putFile("documents", $file);
 
-            $laboratory = Laboratory::create([
-                'appointment_id' =>$request->appointment_id,
+            $document = Document::create([
+                'user_id' =>$request->user_id,
                 'name_file' =>$name_file,
+                'name_category' =>$request->name_category,
                 'size' =>$size,
                 'resolution' =>$data ? $data[0]."x".$data[1]: NULL,
                 'file' =>$path,
@@ -78,9 +91,9 @@ class DocumentController extends Controller
         }
 
         // error_log($clase);
-        error_log($laboratory);
+        error_log($document);
 
-        return response()->json([ 'laboratory'=> LaboratoryResource::make($laboratory)]);
+        return response()->json([ 'document'=> DocumentResource::make($document)]);
     }
 
     /**
@@ -91,23 +104,23 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        $appointment = Appointment::findOrFail($id);
-        // $laboratory = Laboratory::findOrFail($request->appointment_id);
-        $appointment_attention = $appointment->attention;
-        if($appointment_attention){
+        $document = Document::findOrFail($id);
+        // $document = Document::findOrFail($request->user_id);
+        $document_attention = $document->attention;
+        if($document_attention){
             return response()->json([
                 "appointment_attention"=>[
-                    "id"=>$appointment_attention->id,
-                    "description"=>$appointment_attention->description,
-                    "laboratory"=>$appointment_attention->laboratory,
-                    "receta_medica"=>$appointment_attention->receta_medica ? json_decode($appointment_attention->receta_medica) : [],
-                    "created_at" => $appointment_attention->created_at->format("Y-m-d h:i A"),
+                    "id"=>$document_attention->id,
+                    "description"=>$document_attention->description,
+                    "laboratory"=>$document_attention->laboratory,
+                    "receta_medica"=>$document_attention->receta_medica ? json_decode($document_attention->receta_medica) : [],
+                    "created_at" => $document_attention->created_at->format("Y-m-d h:i A"),
                 ]
             ]);
         }else{
             return response()->json([
-                // "laboratory" => $laboratory,
-                "appointment_attention"=>[
+                // "laboratory" => $document,
+                "document_attention"=>[
                     "id"=>NULL,
                     "description"=>NULL,
                     "laboratory"=>1,
@@ -119,12 +132,12 @@ class DocumentController extends Controller
         
     }
 
-    public function showByAppointment($appointment_id)
+    public function showByUser($document_id)
     {
-        $laboratories = Laboratory::where("appointment_id", $appointment_id)->get();
+        $documents = Document::where("user_id", $document_id)->get();
     
         return response()->json([
-            "laboratories" => LaboratoryCollection::make($laboratories),
+            "documents" => DocumentCollection::make($documents),
         ]);
 
         
@@ -139,16 +152,16 @@ class DocumentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $laboratory = Laboratory::findOrFail($id);
-        $laboratory->update($request ->all());
+        $Document = Document::findOrFail($id);
+        $Document->update($request ->all());
 
         return response()->json([
-            'laboratory'=> LaboratoryResource::make($laboratory)
+            'Document'=> DocumentResource::make($Document)
         ]);
     }
     public function addFiles(Request $request)
     {
-        $laboratory = Laboratory::findOrFail($request->appointment_id);
+        $Document = Document::findOrFail($request->user_id);
         foreach($request->file("files") as $key=>$file){
             $extension = $file->getClientOriginalExtension();
             $size = $file->getSize();
@@ -158,10 +171,10 @@ class DocumentController extends Controller
                 $data = getImageSize($file);
                 
             }
-            $path = Storage::putFile("laboratories", $file);
+            $path = Storage::putFile("documents", $file);
 
-            $laboratory = Laboratory::create([
-                'appointment_id' =>$request-> appointment_id,
+            $Document = Document::create([
+                'user_id' =>$request-> user_id,
                 'name_file' =>$name_file,
                 'size' =>$size,
                 'resolution' =>$data ? $data[0]."x".$data[1]: NULL,
@@ -170,14 +183,14 @@ class DocumentController extends Controller
             ]);
         }
 
-        return response()->json([ 'laboratory'=> LaboratoryResource::make($laboratory)]);
+        return response()->json([ 'Document'=> DocumentResource::make($Document)]);
 
     }
 
     public function removeFiles($id)
     {
-        $laboratory = Laboratory::findOrFail($id);
-        $laboratory->delete();
+        $Document = Document::findOrFail($id);
+        $Document->delete();
 
         return response()->json([ "message"=> 200]);
 
@@ -190,8 +203,8 @@ class DocumentController extends Controller
      */
     public function destroy(string $id)
     {
-        $laboratory = Laboratory::findOrFail($id);
-        $laboratory->delete();
+        $Document = Document::findOrFail($id);
+        $Document->delete();
 
         return response()->json([
             "message"=> 200

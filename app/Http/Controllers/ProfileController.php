@@ -183,6 +183,7 @@ class ProfileController extends Controller
         $recientes = Profile::select('profiles.*', 'specialities.title as speciality_title')
             ->orderBy('profiles.created_at', 'DESC')
             ->join('specialities', 'profiles.speciality_id', '=', 'specialities.id')
+            ->where('speciality_id', '>', 0)
             ->where('status', 2)
             ->get();
 
@@ -198,7 +199,9 @@ class ProfileController extends Controller
 
         $destacados = Profile::
                 with(["users"])
-                ->where('rating', '>', 1)
+                ->where('rating', '>', 0)
+                ->where('status', 2)
+                ->where('speciality_id', '>', 0)
                 ->get();
             return response()->json([
                 'code' => 200,

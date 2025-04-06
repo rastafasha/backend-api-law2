@@ -69,6 +69,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // profile
     require __DIR__ . '/api_routes/profile.php';
     
+    // documents
+    require __DIR__ . '/api_routes/documents.php';
+    
     // whatsapp
     // require __DIR__ . '/api_routes/whatsapp.php';
 

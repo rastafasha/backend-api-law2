@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Speciality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,6 +58,18 @@ class Profile extends Model
     //     $builder->where("status", Profile::PUBLISHED);
     //     return $builder->get();
     // }
+
+    public function setCreatedAtAttribute($value)
+    {
+    	date_default_timezone_set('America/Caracas');
+        $this->attributes["created_at"]= Carbon::now();
+    }
+
+    public function setUpdatedAtAttribute($value)
+    {
+    	date_default_timezone_set("America/Caracas");
+        $this->attributes["updated_at"]= Carbon::now();
+    }
 
     /*
     |--------------------------------------------------------------------------

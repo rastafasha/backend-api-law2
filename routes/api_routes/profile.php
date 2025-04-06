@@ -15,7 +15,7 @@ Route::get('/profile/show/{profile}', [ProfileController::class, 'profileShow'])
     ->name('profile.show');
 
 Route::get('/profile/showbyUser/{user}', [ProfileController::class, 'profilebyUser'])
-    ->name('profile.show');
+    ->name('profile.profilebyUser');
 
 Route::get('/profile/recientes', [ProfileController::class, 'recientes'])
     ->name('profile.recientes');

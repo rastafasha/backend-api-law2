@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subcripcion extends Model
 {
@@ -20,5 +21,13 @@ class Subcripcion extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function setCreatedAtAttribute($value)
+    {
+    	date_default_timezone_set('America/Caracas');
+        $this->attributes["created_at"]= Carbon::now();
+    }
+
+    
 
 }

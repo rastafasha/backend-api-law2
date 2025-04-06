@@ -16,6 +16,7 @@ class Document extends Model
         'user_id',
         'client_id',
         'name_file',
+        'name_category',
         'size',
         'time',
         'resolution',
