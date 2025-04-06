@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Payment;
+use App\Models\Profile;
 use App\Models\Location;
 use App\Traits\HavePermission;
 use App\Jobs\NewUserRegisterJob;
@@ -146,7 +147,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function profile()
     {
-        return $this->hasOne(profile::class);
+        return $this->hasOne(Profile::class);
     }
 
     

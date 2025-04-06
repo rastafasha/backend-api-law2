@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
