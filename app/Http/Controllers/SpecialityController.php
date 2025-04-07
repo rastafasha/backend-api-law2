@@ -101,21 +101,21 @@ class SpecialityController extends Controller
             'status' => 'success',
             'speciality' => $speciality,
             // "users"=> $users
-            'users' => $users ->map(
-                function ($item) {
-                    return [
-                        'id' => $item->id,
-                        'nombre' => $item->nombre,
-                        'rating' => $item->rating,
-                        'surname' => $item->surname,
-                        'speciality_title' => $item->speciality_title,
-                         "avatar"=> $item->avatar ? env("APP_URL")."storage/".$item->avatar : NULL,
-                        'created_at' => $item->created_at,
-                        'updated_at' => $item->updated_at,
-                        ];
-                        }
-            ),
-            // "users" => ProfileCollection::make($users),
+            // 'users' => $users ->map(
+            //     function ($item) {
+            //         return [
+            //             'id' => $item->id,
+            //             'nombre' => $item->nombre,
+            //             'rating' => $item->rating,
+            //             'surname' => $item->surname,
+            //             'speciality_title' => $item->speciality_title,
+            //              "avatar"=> $item->avatar ? env("APP_URL")."storage/".$item->avatar : NULL,
+            //             'created_at' => $item->created_at,
+            //             'updated_at' => $item->updated_at,
+            //             ];
+            //             }
+            // ),
+            "users" => ProfileCollection::make($users),
         ], 200);
     }
 
