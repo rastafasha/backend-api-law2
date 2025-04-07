@@ -12,6 +12,9 @@ Route::get('/document/show/{document}', [DocumentController::class, 'show'])
 Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
     ->name('document.showByUser');
 
+Route::get('/document/showByCategory/{user}/{category_name}', [DocumentController::class, 'showByCategory'])
+    ->name('document.showByCategory');
+
 Route::get('/document/recientes', [DocumentController::class, 'recientes'])
     ->name('document.recientes');
 

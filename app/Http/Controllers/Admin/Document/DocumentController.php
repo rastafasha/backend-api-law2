@@ -123,6 +123,18 @@ class DocumentController extends Controller
         
     }
 
+    public function showByCategory($user_id, $name_category)
+    {
+        $documents = Document::where("user_id", $user_id)
+            ->where('name_category', $name_category)
+        ->get();
+    
+        return response()->json([
+            "documents" => DocumentCollection::make($documents),
+        ]);
+
+        
+    }
     /**
      * Update the specified resource in storage.
      *
