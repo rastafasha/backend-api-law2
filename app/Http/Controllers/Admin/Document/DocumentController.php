@@ -183,8 +183,13 @@ class DocumentController extends Controller
      */
     public function destroy(string $id)
     {
-        $Document = Document::findOrFail($id);
-        $Document->delete();
+        $document = Document::findOrFail($id);
+
+       
+        if($document->avatar){
+            Storage::delete($document->avatar);
+        }
+        $document->delete();
 
         return response()->json([
             "message"=> 200
