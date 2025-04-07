@@ -25,7 +25,8 @@ class ProfileController extends Controller
         // $this->authorize('index', User::class);
 
         $profiles = Profile::orderBy('id', 'desc')
-            ->get();
+        ->paginate(10);
+            // ->get();
 
             return response()->json([
                 'code' => 200,
@@ -181,16 +182,33 @@ class ProfileController extends Controller
     {
        
         $recientes = Profile::select('profiles.*', 'specialities.title as speciality_title')
-            ->orderBy('profiles.created_at', 'DESC')
+            ->orderBy('profiles.created_at', 'ASC')
             ->join('specialities', 'profiles.speciality_id', '=', 'specialities.id')
             ->where('speciality_id', '>', 0)
             ->where('status', 2)
-            ->get();
+            ->paginate(10);
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
-            'recientes' => ProfileCollection::make($recientes),
+            // 'recientes' => $recientes,
+            'recientes' => $recientes ->map(
+                function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'nombre' => $item->nombre,
+                        'rating' => $item->rating,
+                        'surname' => $item->surname,
+                        'user_id' => $item->user_id,
+                        'speciality_id' => $item->speciality_id,
+                        'speciality_title' => $item->speciality_title,
+                         "avatar"=> $item->avatar ? env("APP_URL")."storage/".$item->avatar : NULL,
+                        'created_at' => $item->created_at,
+                        'updated_at' => $item->updated_at,
+                        ];
+                        }
+            ),
+            // 'recientes' => ProfileCollection::make($recientes),
         ], 200);
     }
 
@@ -206,7 +224,22 @@ class ProfileController extends Controller
             return response()->json([
                 'code' => 200,
                 'status' => 'Listar Post destacados',
-                'destacados' => ProfileCollection::make($destacados),
+                // 'destacados' => ProfileCollection::make($destacados),
+                'destacados' => $destacados ->map(
+                function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'user_id' => $item->user_id,
+                        'nombre' => $item->nombre,
+                        'rating' => $item->rating,
+                        'surname' => $item->surname,
+                        'speciality_id' => $item->speciality_id,
+                         "avatar"=> $item->avatar ? env("APP_URL")."storage/".$item->avatar : NULL,
+                        'created_at' => $item->created_at,
+                        'updated_at' => $item->updated_at,
+                        ];
+                    }
+                ),
             ], 200);
     }
 }

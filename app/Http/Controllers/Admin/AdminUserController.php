@@ -30,30 +30,23 @@ class AdminUserController extends Controller
     public function index()
     {
 
-        // dd(!auth('api')->user()->can('list_staff'));
-        // if(!auth('api')->user()->can('list_staff')){
-        //     return response()->json(["message"=>"El usuario no esta autenticado"],403);
-        //    }
-        // if(!auth('api')->user()->can('list_doctor')){
-        //     return response()->json(["message"=>"El usuario no esta autenticado"],403);
-        //    }
+       
         
         $users = User::select([
             "id", "username", "email"
         ])
             ->with([
-                // "payments",
                 "profile",
                 "roles",
             ])
-            ->orderBy('id', 'desc')
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+            // ->get();
 
             return response()->json([
                 'code' => 200,
                 'status' => 'Listar todos los Usuarios',
-                'users' => $users
-                // 'users' => UserCollection::make($users)
+                'users' => $users,
             ], 200);
     }
 

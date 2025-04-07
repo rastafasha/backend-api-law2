@@ -20,7 +20,8 @@ class PubController extends Controller
     public function index()
     {
         $pubs = Pub::orderBy('created_at', 'DESC')
-        ->get();
+        // ->get();
+        ->paginate(10);
 
 
         return response()->json([

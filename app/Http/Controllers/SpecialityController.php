@@ -8,13 +8,15 @@ use App\Models\Speciality;
 use Illuminate\Http\Request;
 use App\Http\Resources\Profile\ProfileResource;
 use App\Http\Resources\Profile\ProfileCollection;
+use App\Http\Resources\Speciality\SpecialityCollection;
 
 class SpecialityController extends Controller
 {
     public function index()
     {
 
-        $specialities = Speciality::get();
+        $specialities = Speciality::orderBy('id', 'ASC')
+        ->get();
         //buscamos cuantos perfiles tiene cada especialidad
         $specialities = $specialities->map(function ($speciality) {
             $speciality->count_profiles = Profile::where('speciality_id', $speciality->
@@ -23,13 +25,42 @@ class SpecialityController extends Controller
                 ->count();
             return $speciality;
         });
-
         return response()->json([
             'code' => 200,
             'status' => 'List specialities',
             'specialities' => $specialities,
+            // 'specialities' => SpecialityCollection::make($specialities),
         ], 200);
     }
+
+    public function filtradoMayorCero()
+    {
+
+        $specialities = Speciality::orderBy('id', 'ASC')
+        ->get();
+        //buscamos cuantos perfiles tiene cada especialidad
+        $specialities = $specialities->map(function ($speciality) {
+            $speciality->count_profiles = Profile::where('speciality_id', $speciality->
+                id)
+                ->where('status', 2)
+                ->count();
+            return $speciality;
+        });
+        //filtramos y mostramos las que tenga mas de 0
+        $specialities = $specialities->filter(function ($speciality) {
+            return $speciality->count_profiles > 0;
+            });
+
+
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'List specialities',
+            // 'specialities' => $specialities,
+            'specialities' => SpecialityCollection::make($specialities),
+        ], 200);
+    }
+
 
     public function show(Speciality $speciality)
     {
@@ -51,7 +82,8 @@ class SpecialityController extends Controller
     {
         $users = Profile::where('speciality_id', $speciality->id)
         ->where('status', 2)
-        ->get();
+        ->paginate(10);
+        // ->get();
         if (!$speciality) {
             return response()->json([
                 'message' => 'speciality not found.'
@@ -68,8 +100,22 @@ class SpecialityController extends Controller
             'code' => 200,
             'status' => 'success',
             'speciality' => $speciality,
-            // 'users' => $users,
-            "users" => ProfileCollection::make($users),
+            // "users"=> $users
+            'users' => $users ->map(
+                function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'nombre' => $item->nombre,
+                        'rating' => $item->rating,
+                        'surname' => $item->surname,
+                        'speciality_title' => $item->speciality_title,
+                         "avatar"=> $item->avatar ? env("APP_URL")."storage/".$item->avatar : NULL,
+                        'created_at' => $item->created_at,
+                        'updated_at' => $item->updated_at,
+                        ];
+                        }
+            ),
+            // "users" => ProfileCollection::make($users),
         ], 200);
     }
 

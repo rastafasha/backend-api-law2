@@ -6,6 +6,8 @@ use App\Http\Controllers\SpecialityController;
 
 Route::get('/specialities', [SpecialityController::class, 'index'])
     ->name('speciality.index');
+Route::get('/specialities/filtradoMayorCero', [SpecialityController::class, 'filtradoMayorCero'])
+    ->name('speciality.filtradoMayorCero');
 
 Route::get('/speciality/show/{speciality}', [SpecialityController::class, 'show'])
     ->name('speciality.show');

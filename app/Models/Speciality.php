@@ -17,7 +17,7 @@ class Speciality extends Model
         'user_id',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->hasMany(User::class, 'user_id');
     }
