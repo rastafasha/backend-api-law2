@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfileSeeder::class);
         $this->call(TiposDePagoSeeder::class);
         $this->call(DocumentSeeder::class);
+        $this->call(PaisSeeder::class);
 
     }
 }
