@@ -21,9 +21,9 @@ class Document extends Model
     ];
 
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public static function search($query = ''){
@@ -45,5 +45,19 @@ class Document extends Model
     {
     	date_default_timezone_set("America/Caracas");
         $this->attributes["updated_at"]= Carbon::now();
+    }
+
+    public function scopeFilterAdvanceDocument($query, $name_category, $search_document, $created_at, $user_id)
+    {
+        return $query->where('user_id', $user_id)
+            ->when($search_document, function($q) use ($search_document) {
+                return $q->where('name_file', 'like', "%$search_document%");
+            })
+            ->when($name_category, function($q) use ($name_category) {
+                return $q->where('name_file', 'like', "%$name_category%");
+            })
+            ->when($created_at, function($q) use ($created_at) {
+                return $q->where('name_file', 'like', "%$created_at%");
+            });
     }
 }

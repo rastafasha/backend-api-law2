@@ -11,6 +11,9 @@ Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
 Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
     ->name('document.showByUser');
+    
+Route::get('/document/showByUserFiltered', [DocumentController::class, 'showByUserFiltered'])
+    ->name('document.showByUserFiltered');
 
 Route::get('/document/showByCategory/{user}/{category_name}', [DocumentController::class, 'showByCategory'])
     ->name('document.showByCategory');

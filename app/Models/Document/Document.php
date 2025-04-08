@@ -2,7 +2,9 @@
 
 namespace App\Models\Document;
 
+use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +42,49 @@ class Document extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'cliente_id');
+    }
+
+    public function scopefilterAdvanceDocument(
+        $query,
+        // $speciality_id,
+        // $date_end,
+        $search_document,
+        $name_category,
+        $created_at,
+        $user_id
+    ) {
+
+        // if($speciality_id){
+        //     $query->where("speciality_id", $speciality_id);
+        // }
+
+        if ($search_document) {
+            $query->whereHas(function ($q) use ($search_document) {
+                $q->where( "like", "%" . $search_document . "%");
+            });
+        }
+        if ($name_category) {
+            $query->whereHas(function ($q) use ($name_category) {
+                $q->where( "like", "%" . $name_category . "%");
+            });
+        }
+        
+
+        if ($created_at) {
+            $query->whereBetween("created_at", [
+                Carbon::parse($created_at)->format("Y-m-d")
+            ]);
+        }
+        if ($user_id) {
+            $query->where("user_id", $user_id);
+        }
+        // if ($date_start && $date_end) {
+        //     $query->whereBetween("session_date", [
+        //         Carbon::parse($date_start)->format("Y-m-d"),
+        //         Carbon::parse($date_end)->format("Y-m-d"),
+        //     ]);
+        // }
+        return $query;
     }
 
     

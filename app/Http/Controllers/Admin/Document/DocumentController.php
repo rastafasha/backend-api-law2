@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Document;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Document\Document;
+use App\Http\Controllers\Controller;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Document\DocumentResource;
@@ -31,22 +32,28 @@ class DocumentController extends Controller
         ], 200); 
 
     }
+    
+
+
     // public function index(Request $request)
     // {
-    //     $speciality_id = $request->speciality_id;
-    //     $name_doctor = $request->search;
-    //     $date = $request->date;
-    //     //
-    //     $documents = Appointment::filterAdvance($speciality_id, $name_doctor, $date)
-    //                         ->orderBy("id", "desc")
-    //                         ->where("status", 2)
-    //                         ->where("laboratory", 2)
-    //                         ->paginate(10);
-    //     return response()->json([
-    //         "total"=>$documents->total(),
-    //         "appointments"=> AppointmentCollection::make($documents)
-    //     ]);
 
+    //     $name_category = $request->name_category;
+    //     $search_document = $request->search_document;
+    //     $date_start = $request->date_start;
+    //     $date_end = $request->date_end;
+
+    //     $documents = Document::filterAdvanceDocument(
+    //         $name_category,
+    //         $search_document,
+    //         $date_start,
+    //         $date_end
+    //     )
+    //         ->paginate(10);
+    //     return response()->json([
+    //         "total" => $documents->total(),
+    //         "documents" => DocumentCollection::make($documents)
+    //     ]);
     // }
 
     /**
@@ -112,12 +119,40 @@ class DocumentController extends Controller
         
     }
 
-    public function showByUser($document_id)
+    public function showByUser($user_id)
     {
-        $documents = Document::where("user_id", $document_id)->get();
+        $documents = Document::where("user_id", $user_id)->get();
     
         return response()->json([
             "documents" => DocumentCollection::make($documents),
+        ]);
+
+        
+    }
+    public function showByUserFiltered(Request $request)
+    {
+        $query = Document::query()
+            ->when($request->user_id, function($q) use ($request) {
+                return $q->where('user_id', $request->user_id);
+            })
+            ->when($request->name_category, function($q) use ($request) {
+                return $q->where('name_category', $request->name_category);
+            })
+            ->when($request->name_file, function($q) use ($request) {
+                return $q->where('name_file', $request->name_file);
+            })
+            ->when($request->search_document, function($q) use ($request) {
+                return $q->where('name_file', 'like', '%'.$request->search_document.'%');
+            })
+            ->when($request->created_at, function($q) use ($request) {
+                return $q->whereDate('created_at', $request->created_at);
+            });
+
+        $documents = $query->paginate(10);
+
+        return response()->json([
+            "total" => $documents->total(),
+            "documents" => DocumentCollection::make($documents)
         ]);
 
         

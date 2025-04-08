@@ -15,7 +15,7 @@ class PaisController extends Controller
      */
     public function index()
     {
-        $paises = Pais::orderBy('id', 'DESC')
+        $paises = Pais::orderBy('id', 'ASC')
         
         ->get();
 
