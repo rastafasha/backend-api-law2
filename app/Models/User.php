@@ -150,6 +150,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Profile::class);
     }
 
+    public function solicitudUsersAsCliente()
+    {
+        return $this->hasMany(SolicitudUser::class, 'cliente_id');
+    }
+
+    public function solicitudUsersAsUser() 
+    {
+        return $this->hasMany(SolicitudUser::class, 'user_id');
+    }
+
+
     
     
 

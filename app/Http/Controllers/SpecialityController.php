@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pais;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Speciality;
@@ -185,6 +186,36 @@ class SpecialityController extends Controller
         return Speciality::search($request->buscar);
 
     }
+    
 
+    public function specialityFiltered(Request $request, $pais = null, $speciality_id = null, $rating = null)
+    {
+        $query = Speciality::query()
+            
+            ->when($pais, function($q) use ($pais) {
+                return $q->whereHas('profiles', function($profileQuery) use ($pais) {
+                    $profileQuery->where('pais', '=', $pais)
+                                ->where('status', 2);
+                });
+            })
+            ->when($speciality_id, function($q) use ($speciality_id) {
+                return $q->where('id', $speciality_id);
+            })
+            ->when($rating, function($q) use ($rating) {
+                return $q->whereHas('profiles', function($profileQuery) use ($rating) {
+                    $profileQuery->where('rating', '>=', $rating)
+                                ->where('status', 2);
+                });
+            });
+
+        $specialities = $query->paginate(10);
+
+        return response()->json([
+            "total" => $specialities->total(),
+            "specialities" => SpecialityCollection::make($specialities)
+        ]);
+
+        
+    }
     
 }

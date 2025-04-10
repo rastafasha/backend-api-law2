@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,6 +21,10 @@ class Speciality extends Model
     public function user()
     {
         return $this->hasMany(User::class, 'user_id');
+    }
+    public function profiles()
+    {
+        return $this->hasMany(Profile::class, 'speciality_id');
     }
 
     public static function search($query = ''){

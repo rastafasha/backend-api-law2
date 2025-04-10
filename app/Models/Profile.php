@@ -89,9 +89,9 @@ class Profile extends Model
         return $this->hasMany(User::class, 'cliente_id');
     }
 
-    public function specialities()
+    public function speciality()
     {
-        return $this->hasOne(Speciality::class, 'speciality_id');
+        return $this->belongsTo(Speciality::class, 'speciality_id');
     }
 
     // public function solicitudUser()

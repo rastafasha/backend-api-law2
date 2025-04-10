@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpecialityController;
 
@@ -14,12 +13,16 @@ Route::get('/speciality/show/{speciality}', [SpecialityController::class, 'show'
     
 Route::get('/speciality/showWithUsers/{speciality}', [SpecialityController::class, 'showWithUsers'])
     ->name('speciality.showWithUsers');
+    
 
 Route::get('/speciality/recientes', [SpecialityController::class, 'recientes'])
     ->name('speciality.recientes');
 
 Route::get('/speciality/destacados', [SpecialityController::class, 'destacados'])
     ->name('speciality.destacados');
+
+Route::get('/speciality/specialityFiltered/{pais?}/{speciality_id?}/{rating?}', [SpecialityController::class, 'specialityFiltered'])
+    ->name('speciality.specialityFiltered');
 
 Route::post('/speciality/store', [SpecialityController::class, 'specialityStore'])
     ->name('speciality.store');

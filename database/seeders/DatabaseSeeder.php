@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TiposDePagoSeeder::class);
         $this->call(DocumentSeeder::class);
         $this->call(PaisSeeder::class);
+        $this->call(SolicitudesSeeder::class);
 
     }
 }

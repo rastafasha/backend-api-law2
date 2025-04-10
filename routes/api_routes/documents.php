@@ -9,11 +9,12 @@ Route::get('/documents', [DocumentController::class, 'index'])
 
 Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
+    Route::get('/documents/showByUserFiltered', [DocumentController::class, 'showByUserFiltered'])
+        ->name('document.showByUserFiltered');
+
 Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
     ->name('document.showByUser');
     
-Route::get('/document/showByUserFiltered', [DocumentController::class, 'showByUserFiltered'])
-    ->name('document.showByUserFiltered');
 
 Route::get('/document/showByCategory/{user}/{category_name}', [DocumentController::class, 'showByCategory'])
     ->name('document.showByCategory');
@@ -38,3 +39,11 @@ Route::get('/document/search/', [DocumentController::class, 'search'])
 
 Route::delete('/document/destroy/{document}', [DocumentController::class, 'destroy'])
     ->name('document.destroy');
+
+Route::post('/document/share/{document}/{client}', [DocumentController::class, 'shareToClient'])
+    ->name('document.share');
+    
+
+Route::post('/document/sharegroup/{document}/{client}/{namecategory}', [DocumentController::class, 'shareGroupClientByNameCategory'])
+    ->name('document.shareGroupClientByNameCategory');
+

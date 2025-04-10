@@ -242,4 +242,26 @@ class ProfileController extends Controller
                 ),
             ], 200);
     }
+
+    public function profileFiltered(Request $request)
+    {
+        $query = Profile::with(['speciality'])
+            ->where('status', 2) // Only show published profiles
+            ->when($request->speciality_id, function($q) use ($request) {
+                return $q->where('speciality_id', $request->speciality_id);
+            })
+            ->when($request->pais, function($q) use ($request) {
+                return $q->where('pais', $request->pais);
+            })
+            ->when($request->rating, function($q) use ($request) {
+                return $q->where('rating', $request->rating);
+            });
+
+        $profiles = $query->paginate(10);
+
+        return response()->json([
+            "total" => $profiles->total(),
+            "profiles" => ProfileCollection::make($profiles)
+        ]);
+    }
 }

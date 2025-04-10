@@ -1,15 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Route;
+
+
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\Admin\Doctor\DoctorController;
-use App\Http\Controllers\Auth\ChangePasswordController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ChangeForgotPasswordControllerController;
 
 
 /*
@@ -34,7 +29,7 @@ use App\Http\Controllers\Auth\ChangeForgotPasswordControllerController;
 
 
 Route::group(['middleware' => 'api'], function ($router) {
-
+    // Auth protected routes
     // Auth
     require __DIR__ . '/api_routes/auth.php';
 
@@ -47,39 +42,31 @@ Route::group(['middleware' => 'api'], function ($router) {
     // specialities
     require __DIR__ . '/api_routes/specialities.php';
 
-    
-    // // dashboard
-    // require __DIR__ . '/api_routes/dashboard.php';
-
-    // // pagos
-    // require __DIR__ . '/api_routes/payment.php';
-    
     // tipos de pago
     require __DIR__ . '/api_routes/paymentMethod.php';
     
-    // // setting
-    // require __DIR__ . '/api_routes/setting.php';
-    
     // pub
     require __DIR__ . '/api_routes/pub.php';
-    
-    // // presupuesto
-    // require __DIR__ . '/api_routes/presupuesto.php';
 
     // profile
     require __DIR__ . '/api_routes/profile.php';
-    
-    // documents
-    require __DIR__ . '/api_routes/documents.php';
+
     
     // pais
     require __DIR__ . '/api_routes/pais.php';
     
+    
     // whatsapp
     // require __DIR__ . '/api_routes/whatsapp.php';
+    
+    
+    // documents
+    require __DIR__ . '/api_routes/documents.php';
+
+    require __DIR__.'/api_routes/solicitudes.php';
 
 
-
+    
 
     //comandos desde la url del backend
 
@@ -137,3 +124,5 @@ Route::group(['middleware' => 'api'], function ($router) {
 
 
 });
+
+
