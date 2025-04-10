@@ -7,9 +7,8 @@ use App\Http\Controllers\Admin\Document\DocumentController;
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('document.index');
 
-Route::get('/documents/showDocumentFiltered', [DocumentController::class, 'showDocumentFiltered'])
+Route::get('/documents/showByUserFiltered', [DocumentController::class, 'showDocumentFiltered'])
         ->name('documents.showDocumentFiltered');
-
 Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
 
@@ -41,8 +40,10 @@ Route::get('/document/search/', [DocumentController::class, 'search'])
 Route::delete('/document/destroy/{document}', [DocumentController::class, 'destroy'])
     ->name('document.destroy');
 
-Route::post('/document/share/{document}/{client}', [DocumentController::class, 'shareToClient'])
+Route::post('/document/share/', [DocumentController::class, 'shareToClient'])
     ->name('document.share');
+// Route::post('/document/share/{document}/{client}', [DocumentController::class, 'shareToClient'])
+//     ->name('document.share');
     
 
 Route::post('/document/sharegroup/{document}/{client}/{namecategory}', [DocumentController::class, 'shareGroupClientByNameCategory'])

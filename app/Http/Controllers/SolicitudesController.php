@@ -174,13 +174,15 @@ class SolicitudesController extends Controller
     public function clientesByUser($userId)
     {
         $user = User::findOrFail($userId);
-        
+        $solicitud_status= Solicitud::where('status', 2)->get();
         // Get all unique client users associated with this user through solicitudes
         $clientes = SolicitudUser::where('user_id', $userId)
             ->with(['cliente' => function($query) {
                 $query->select('id', 'username', 'email');
             }])
             ->get()
+            //sacamos el status de la solicitud
+            
             ->pluck('cliente')
             ->unique('id')
             ->values();
@@ -190,6 +192,8 @@ class SolicitudesController extends Controller
             'status' => 'success',
             'user' => $user,
             'clientes' => $clientes,
+            'solicitud_status' => $solicitud_status,
+            
         ], 200);
     }
     public function contactosByUser($clienteId)

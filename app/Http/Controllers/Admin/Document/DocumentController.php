@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Document;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\SolicitudUser;
 use App\Models\Document\Document;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment\Appointment;
@@ -242,13 +243,13 @@ class DocumentController extends Controller
     /**
      * Share document to client
      */
-    public function shareToClient(Request $request, $document_id, $client_id)
+    public function shareToClient(Request $request)
     {
-        $document = Document::findOrFail($document_id);
-        $user = auth()->user();
+        $document = Document::findOrFail($request->document_id);
+        $user = User::findOrFail($request->user_id);
 
         // Verificar que el usuario es dueño del documento
-        if ($document->user_id != $user->id) {
+        if ($request->user_id != $user->id) {
             return response()->json([
                 'message' => 'No tienes permiso para compartir este documento',
                 'code' => 403
@@ -257,7 +258,7 @@ class DocumentController extends Controller
 
         // Verificar relación usuario-cliente en SolicitudUser
         $relationExists = SolicitudUser::where('user_id', $user->id)
-            ->where('cliente_id', $client_id)
+            ->where('cliente_id', $request->cliente_id)
             ->exists();
 
         if (!$relationExists) {
@@ -269,7 +270,7 @@ class DocumentController extends Controller
 
         // Actualizar documento con client_id
         $document->update([
-            'client_id' => $client_id
+            'cliente_id' => $request->cliente_id
         ]);
 
         return response()->json([
