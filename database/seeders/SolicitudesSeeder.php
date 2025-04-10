@@ -48,13 +48,6 @@ class SolicitudesSeeder extends Seeder
                     'cliente_id' => $guest->id,
                     'user_id' => $member->id
                 ]);
-
-                // // Alternative relationship if needed
-                // SolicitudUser::create([
-                //     'solicitud_id' => $solicitud->id, 
-                //     'cliente_id' => $guest->id,
-                //     'user_id' => $member->id
-                // ]);
             }
         });
 

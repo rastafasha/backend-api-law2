@@ -128,7 +128,7 @@ class DocumentController extends Controller
 
 
     }
-    public function showByUserFiltered(Request $request)
+    public function showDocumentFiltered(Request $request)
     {
         $query = Document::query()
             ->when($request->user_id, function ($q) use ($request) {

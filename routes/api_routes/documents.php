@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\Document\DocumentController;
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('document.index');
 
+Route::get('/documents/showDocumentFiltered', [DocumentController::class, 'showDocumentFiltered'])
+        ->name('documents.showDocumentFiltered');
+
 Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
-    Route::get('/documents/showByUserFiltered', [DocumentController::class, 'showByUserFiltered'])
-        ->name('document.showByUserFiltered');
 
 Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
     ->name('document.showByUser');

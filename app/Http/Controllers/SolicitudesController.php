@@ -192,4 +192,25 @@ class SolicitudesController extends Controller
             'clientes' => $clientes,
         ], 200);
     }
+    public function contactosByUser($clienteId)
+    {
+        $cliente = User::findOrFail($clienteId);
+        
+        // Get all unique client users associated with this user through solicitudes
+        $users = SolicitudUser::where('cliente_id', $clienteId)
+            ->with(['user' => function($query) {
+                $query->select('id', 'username', 'email');
+            }])
+            ->get()
+            ->pluck('user')
+            ->unique('id')
+            ->values();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'cliente' => $cliente,
+            'users' => $users,
+        ], 200);
+    }
 }
