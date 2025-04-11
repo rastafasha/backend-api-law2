@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DocumentSeeder::class);
         $this->call(PaisSeeder::class);
         $this->call(SolicitudesSeeder::class);
+        $this->call(FavoriteSeeder::class);
 
     }
 }

@@ -15,10 +15,8 @@ class CreateFavoritesTable extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cliente_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

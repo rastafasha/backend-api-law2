@@ -10,15 +10,17 @@ class Favorite extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title',
-        'description',
-        'is_active',
         'user_id',
+        'cliente_id',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->hasMany(User::class, 'user_id');
+    }
+    public function cliente()
+    {
+        return $this->hasMany(User::class, 'cliente_id');
     }
 
     public static function search($query = ''){
