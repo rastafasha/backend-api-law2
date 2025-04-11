@@ -63,7 +63,10 @@ Route::group(['middleware' => 'api'], function ($router) {
     // documents
     require __DIR__ . '/api_routes/documents.php';
 
+    // solicitudes
     require __DIR__.'/api_routes/solicitudes.php';
+    // favorite
+    require __DIR__.'/api_routes/favorite.php';
 
 
     

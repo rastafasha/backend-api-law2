@@ -14,6 +14,7 @@ class FavoriteController extends Controller
 
         $favorites = Favorite::orderBy('id', 'ASC')
         ->get();
+
         
         return response()->json([
             'code' => 200,
@@ -39,38 +40,42 @@ class FavoriteController extends Controller
         ], 200);
     }
 
-    public function favoriteByUser ($user_id)
+    public function favoritesByUser ($user_id)
      {
-         $favorite = Favorite::where('user_id', $user_id)->first();
+         $favorites = Favorite::where('user_id', $user_id)
+         ->orderBy('created_at', 'asc')
+         ->get();
 
-         if (!$favorite) {
+         if (!$favorites) {
              return response()->json([
-                 'message' => 'favorite not found.'
+                 'message' => 'favorites not found.'
              ], 404);
          }
 
          return response()->json([
              'code' => 200,
              'status' => 'success',
-            //  'favorite' => $favorite,
-             'favorite' => FavoriteResource::make($favorite),
+             'favorites' => $favorites,
+            //  'favorites' => FavoriteCollection::make($favorites),
          ], 200);
      }
-    public function favoriteByCliente ($cliente_id)
+    public function favoritesByCliente ($cliente_id)
      {
-         $favorite = Favorite::where('cliente_id', $cliente_id)->first();
+         $favorites = Favorite::where('cliente_id', $cliente_id)
+         ->orderBy('created_at', 'asc')
+         ->get();
 
-         if (!$favorite) {
+         if (!$favorites) {
              return response()->json([
-                 'message' => 'favorite not found.'
+                 'message' => 'favorites not found.'
              ], 404);
          }
 
          return response()->json([
              'code' => 200,
              'status' => 'success',
-            //  'favorite' => $favorite,
-             'favorite' => FavoriteResource::make($favorite),
+             'favorites' => $favorites,
+            //  'favorites' => FavoriteCollection::make($favorites),
          ], 200);
      }
 
