@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Http\Resources\Favorite\FavoriteResource;
@@ -55,8 +56,8 @@ class FavoriteController extends Controller
          return response()->json([
              'code' => 200,
              'status' => 'success',
-             'favorites' => $favorites,
-            //  'favorites' => FavoriteCollection::make($favorites),
+            //  'favorites' => $favorites,
+             'favorites' => FavoriteCollection::make($favorites),
          ], 200);
      }
     public function favoritesByCliente ($cliente_id)
@@ -65,6 +66,7 @@ class FavoriteController extends Controller
          ->orderBy('created_at', 'asc')
          ->get();
 
+         
          if (!$favorites) {
              return response()->json([
                  'message' => 'favorites not found.'
@@ -74,8 +76,8 @@ class FavoriteController extends Controller
          return response()->json([
              'code' => 200,
              'status' => 'success',
-             'favorites' => $favorites,
-            //  'favorites' => FavoriteCollection::make($favorites),
+            //  'favorites' => $favorites,
+             'favorites' => FavoriteCollection::make($favorites),
          ], 200);
      }
 

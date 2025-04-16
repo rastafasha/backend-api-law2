@@ -10,10 +10,10 @@ Route::get('/favorites/showbyUser/{user}', [FavoriteController::class, 'favorite
     ->name('favorites.favoritesbyUser');
 Route::get('/favorites/showbyCliente/{cliente}', [FavoriteController::class, 'favoritesbyCliente'])
     ->name('favorites.favoritesbyCliente');
-Route::get('favorites/profile/{id}', [FavoriteController::class, 'profile'])->name('profile');
-Route::get('favorites/show/{id}', [FavoriteController::class, 'show'])->name('show');
-Route::post('favorites/store', [FavoriteController::class, 'store'])->name('store');
-Route::post('favorites/update/{id}', [FavoriteController::class, 'update'])->name('update');
+    
+Route::get('favorites/show/{id}', [FavoriteController::class, 'show'])->name('favorites.show');
+Route::post('favorites/store', [FavoriteController::class, 'store'])->name('favorites.store');
+Route::post('favorites/update/{id}', [FavoriteController::class, 'update'])->name('favorites.update');
 Route::put('/favorites/update/status/{id}', [FavoriteController::class, 'updateStatus'])
     ->name('favorite.updateStatus');
-Route::delete('favorites/destroy/{id}', [FavoriteController::class, 'destroy'])->name('destroy');
+Route::delete('favorites/destroy/{id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');

@@ -16,9 +16,6 @@ class CreateProfileTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->foreignId('speciality_id')->nullable();
-            
             $table->tinyInteger('gender')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('avatar')->nullable();
@@ -40,13 +37,15 @@ class CreateProfileTable extends Migration
             // Provider IDs
             $table->unsignedBigInteger('speciality_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys for provider relationships
             // $table->foreign('speciality_id')->references('id')->on('specialities')->nullOnDelete();
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            // $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            // $table->foreign('client_id')->references('id')->on('clients')->nullOnDelete();
         });
     }
 

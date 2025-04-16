@@ -15,10 +15,14 @@ class CreateSolicitudUserTable extends Migration
     {
         Schema::create('solicitud_user', function (Blueprint $table) {
             $table->id();  
-            $table->foreignId('solicitud_id')->constrained('solicituds')->onDelete('cascade')->nullable();  
-            $table->foreignId('cliente_id')->constrained('users')->onDelete('cascade')->nullable();  
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();  
+            $table->unsignedBigInteger('solicitud_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->timestamps();
+
+            // $table->foreignId('solicitud_id')->constrained('solicituds')->onDelete('cascade')->nullable();  
+            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();  
+            // $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->nullable();  
         });
     }
 

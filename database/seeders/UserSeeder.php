@@ -110,53 +110,7 @@ class UserSeeder extends Seeder
                 "email_verified_at" => now(),
                 "created_at" => now(),
             ],
-            [
-                "username" => "invitado",
-                "email" => "invitado@invitado.com",
-                
-                "password" => bcrypt("password"),
-                'roles' => [
-                    [
-                        "id"=> 4,
-                        "name"=> "GUEST",
-                        "guard_name"=> "api",
-                        "created_at"=> "2025-02-16T06:49:18.000000Z",
-                        "updated_at"=> "2025-02-16T06:49:18.000000Z",
-                    ],
-                    'pivot' => [
-                        [
-                            "model_id"=> 3,
-                            "role_id"=> 5,    
-                            "model_type"=> "App\\Models\\User"
-                        ]
-                    ],
-                ],
-                "email_verified_at" => now(),
-                "created_at" => now(),
-            ],
-            [
-                "username" => "invitado",
-                "email" => "invitado2@invitado.com",
-                "password" => bcrypt("password"),
-                'roles' => [
-                    [
-                        "id"=> 4,
-                        "name"=> "GUEST",
-                        "guard_name"=> "api",
-                        "created_at"=> "2025-02-16T06:49:18.000000Z",
-                        "updated_at"=> "2025-02-16T06:49:18.000000Z",
-                    ],
-                    'pivot' => [
-                        [
-                            "model_id"=> 4,
-                            "role_id"=> 4,    
-                            "model_type"=> "App\\Models\\User"
-                        ]
-                    ],
-                ],
-                "email_verified_at" => now(),
-                "created_at" => now(),
-            ],
+            
         ];
 
         foreach ($users as $user) {

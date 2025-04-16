@@ -78,7 +78,7 @@ class TiposDePagoSeeder extends Seeder
                 'bankName' => 'Mercantil Pago M',
                 'bankAccountType' => null,
                 'email' => null,
-                'user_id' => 5,
+                'user_id' => 3,
                 'status' => 'ACTIVE',
                 'created_at' => '2024-01-16 03:17:12',
                 'updated_at' => '2024-01-16 03:17:16'

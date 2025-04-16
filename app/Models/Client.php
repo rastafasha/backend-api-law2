@@ -3,25 +3,20 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\Payment;
 use App\Models\Profile;
 use App\Models\Location;
 use App\Traits\HavePermission;
-use App\Jobs\NewUserRegisterJob;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Doctor\Specialitie;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Doctor\DoctorScheduleDay;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class Client extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HavePermission,  HasRoles;
     use SoftDeletes;
@@ -99,6 +94,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role === User::GUEST;
     }
+    public function isRecepcion()
+    {
+        return $this->role === User::RECEPCION;
+    }
+    public function isDoctor()
+    {
+        return $this->role === User::DOCTOR;
+    }
 
     public function getJWTIdentifier()
     {
@@ -118,29 +121,16 @@ class User extends Authenticatable implements JWTSubject
 
 
 
-    public function speciality()
-    {
-        return $this->belongsTo(Specialitie::class, 'speciality_id');
-    }
-
-    public function schedule_days()
-    {
-        return $this->hasMany(DoctorScheduleDay::class);
-    }
-    public function location()
-    {
-        return $this->hasMany(Location::class, 'location_id');
-    }
+   
 
     public function profile()
     {
         return $this->hasOne(Profile::class);
     }
 
-
-    public function solicitudUsersAsUser() 
+    public function solicitudUsersAsCliente()
     {
-        return $this->hasMany(SolicitudUser::class, 'user_id');
+        return $this->hasMany(SolicitudUser::class, 'cliente_id');
     }
 
 

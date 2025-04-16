@@ -23,15 +23,15 @@ class CreateDocumentsTable extends Migration
             $table->string('file', 250);
             $table->string('type', 50);
             // Provider IDs
-            $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys for provider relationships
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('client_id')->references('id')->on('users')->nullOnDelete();
+            // $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            // $table->foreign('client_id')->references('id')->on('clients')->nullOnDelete();
         });
     }
 

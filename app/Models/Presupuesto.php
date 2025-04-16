@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Client;
 use App\Models\Payment;
 use App\Models\Patient\Patient;
 use App\Models\Doctor\Specialitie;
@@ -17,8 +18,8 @@ class Presupuesto extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=[
-        "doctor_id",
-        "patient_id",
+        "user_id",
+        "client_id",
         "n_doc",
         "date_appointment",
         "speciality_id",
@@ -64,24 +65,18 @@ class Presupuesto extends Model
     // relaciones
 
     public function doctor() {
-        return $this->belongsTo(User::class,"doctor_id");
+        return $this->belongsTo(User::class,"user_id");
     }
 
     public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function patient()
+    public function client()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Client::class);
     }
     
-
-
-    public function speciality()
-    {
-        return $this->belongsTo(Specialitie::class, "speciality_id");
-    }
 
 
     // relaciones
@@ -90,10 +85,6 @@ class Presupuesto extends Model
 
     public function scopefilterAdvance($query,$speciality_id, $name_doctor, $date){
         
-        if($speciality_id){
-            $query->where("speciality_id", $speciality_id);
-        }
-
         if($name_doctor){
             $query->whereHas("doctor", function($q)use($name_doctor){
                 $q->where("name", "like","%".$name_doctor."%")

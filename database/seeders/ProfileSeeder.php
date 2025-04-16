@@ -16,7 +16,7 @@ class ProfileSeeder extends Seeder
     {
         $profiles = [
             [
-                'gender' => 1,
+                'gender' => 1, // Male
                 'status' => 1,
                 'avatar' => null,
                 'n_doc' => '12345678',
@@ -51,7 +51,7 @@ class ProfileSeeder extends Seeder
             ],
 
             [
-                'gender' => 2,
+                'gender' => 2, // Female
                 'status' => 1,
                 'avatar' => null,
                 'n_doc' => '12993678',
@@ -85,7 +85,7 @@ class ProfileSeeder extends Seeder
                 'user_id' => 4,
             ],
             [
-                'gender' => 1,
+                'gender' => 1, // Male
                 'status' => 1,
                 'avatar' => null,
                 'n_doc' => '123342678',
@@ -94,8 +94,8 @@ class ProfileSeeder extends Seeder
                 'direccion' => 'Avenida Libertador 1234',
                 'description' => 'Abogado con experiencia en derecho penal.',
                 'pais' => 'CO',
-                'estado' => 'Bogotá',
-                'ciudad' => 'Bogotá',
+                'estado' => 'N/A', // Changed to a valid value
+                'ciudad' => 'Cucuta',
                 'telhome' => '0571-1234-5678',
                 'telmovil' => '0571-9876-5432',
                 'redessociales' => json_encode([ 
@@ -113,11 +113,11 @@ class ProfileSeeder extends Seeder
                 'precios' => null,
                 'rating' => 1,
                 'speciality_id' => null,
-                'user_id' => 5,
+                'client_id' => 5,
             ],
 
             [
-                'gender' => 1,
+                'gender' => 1, // Male
                 'status' => 1,
                 'avatar' => null,
                 'n_doc' => '12330678',
@@ -143,9 +143,9 @@ class ProfileSeeder extends Seeder
                     ]
                 ]),
                 'precios' => null,
-                'rating' =>2,
+                'rating' => 2,
                 'speciality_id' => null,
-                'user_id' => 6,
+                'client_id' => 6,
             ],
         ];
 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Client;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +13,7 @@ class Favorite extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'cliente_id',
+        'client_id',
     ];
 
     public function user()
@@ -20,7 +22,7 @@ class Favorite extends Model
     }
     public function cliente()
     {
-        return $this->belongsTo(User::class, 'cliente_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
     public static function search($query = ''){

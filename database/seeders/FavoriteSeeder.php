@@ -22,7 +22,7 @@ class FavoriteSeeder extends Seeder
             // Assuming we have 3 users for each client
             for ($i = 1; $i <= 3; $i++) {
                 Favorite::create([
-                    'cliente_id' => $clientId,
+                    'client_id' => $clientId,
                     'user_id' => $i + 3 // Assuming user IDs start from 4
                 ]);
             }

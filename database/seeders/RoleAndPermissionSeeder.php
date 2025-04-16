@@ -55,6 +55,7 @@ class RoleAndPermissionSeeder extends Seeder
         // $laboratorioRole = Role::find(5);
         // $asistenteRole = Role::find(6);
         // $enfermeraRole = Role::find(7);
+        $memberRole = Role::find(3);
         $guestRole = Role::find(4);
         // $personaladicionalRole = Role::find(5);
 
@@ -62,6 +63,7 @@ class RoleAndPermissionSeeder extends Seeder
         // $adminRole->givePermissionTo([2,5,8,9,10,12,13.14,15,17,18,19,20,22,23,24,26,27,28,29,30,32,35,38,40,41,42,44,48,49,52,53,54,59,60,61,62,66]);
         // $doctorRole->givePermissionTo([3,10,12,15,17,49,50,52,53,54,55,56,62,63,64,65,66]); // doctor specific permissions
         $guestRole->givePermissionTo([1,2]); // doctor specific permissions
+        $memberRole->givePermissionTo([1,2]); // doctor specific permissions
        
     }
 }

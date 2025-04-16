@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,12 +19,17 @@ class Document extends Model
         'type',
         'is_active',
         'user_id',
+        'client_id',
     ];
 
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 
     public static function search($query = ''){
