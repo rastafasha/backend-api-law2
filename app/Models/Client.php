@@ -57,10 +57,7 @@ class Client extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    const SUPERADMIN = 'SUPERADMIN';
-    const ADMIN = 'ADMIN';
     const GUEST = 'GUEST';
-    const MEMBER = 'MEMBER';
 
     public function setCreatedAtAttribute($value)
     {
@@ -81,26 +78,9 @@ class Client extends Authenticatable implements JWTSubject
     |--------------------------------------------------------------------------
     */
 
-    public function isSuperAdmin()
-    {
-        return $this->role === User::SUPERADMIN;
-    }
-
-    public function isAdmin()
-    {
-        return $this->role === User::ADMIN;
-    }
     public function isGuest()
     {
         return $this->role === User::GUEST;
-    }
-    public function isRecepcion()
-    {
-        return $this->role === User::RECEPCION;
-    }
-    public function isDoctor()
-    {
-        return $this->role === User::DOCTOR;
     }
 
     public function getJWTIdentifier()
