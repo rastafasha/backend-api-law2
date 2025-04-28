@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SpecialitySeeder::class);
         $this->call(PaisSeeder::class);
         $this->call(ProfileSeeder::class);
-        $this->call(TiposDePagoSeeder::class);
+        // $this->call(TiposDePagoSeeder::class);
         $this->call(DocumentSeeder::class);
         $this->call(SolicitudesSeeder::class);
         $this->call(FavoriteSeeder::class);
