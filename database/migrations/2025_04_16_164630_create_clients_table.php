@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\Role;
-use App\Models\User;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('username',  250);
             $table->string('email')->unique()->comment('User email for login');
@@ -23,15 +21,14 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('Hashed password');
             $table->boolean('is_active')->nullable();
             $table->rememberToken()->comment('For "remember me" functionality');
-
             // Provider IDs
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys for provider relationships
-            // $table->foreign('client_id')->references('id')->on('clients')->nullOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
         });
     }
 
@@ -42,6 +39,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('clients');
     }
 }

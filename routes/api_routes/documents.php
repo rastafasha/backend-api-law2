@@ -7,8 +7,9 @@ use App\Http\Controllers\Admin\Document\DocumentController;
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('document.index');
 
-Route::get('/documents/showByUserFiltered', [DocumentController::class, 'showDocumentFiltered'])
+Route::options('/documents/showByUserFiltered', [DocumentController::class, 'showDocumentFiltered'])
         ->name('documents.showDocumentFiltered');
+        
 Route::get('/document/show/{document}', [DocumentController::class, 'show'])
     ->name('document.show');
 

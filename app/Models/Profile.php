@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Client;
 use App\Models\Speciality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,7 +16,7 @@ class Profile extends Model
     protected $fillable = [
         "user_id",
         "speciality_id",
-        "cliente_id",
+        "client_id",
         'nombre',
         'n_doc',
         'surname',
@@ -77,16 +78,12 @@ class Profile extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function users(){
+    public function user(){
         return $this->belongsTo(User::class, 'id');
     }
-    public function posts()
+    public function cliente()
     {
-        return $this->hasMany(Post::class, 'post_id');
-    }
-    public function clientes()
-    {
-        return $this->hasMany(User::class, 'cliente_id');
+        return $this->hasMany(Client::class, 'client_id');
     }
 
     public function speciality()

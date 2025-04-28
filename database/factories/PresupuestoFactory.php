@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Client;
 use App\Models\Presupuesto;
 use App\Models\Patient\Patient;
 use App\Models\Doctor\Specialitie;
@@ -31,7 +32,7 @@ class PresupuestoFactory extends Factory
 
         return [
             "doctor_id" => User::role('DOCTOR')->inRandomOrder()->first()->id,
-            "patient_id" => Patient::count() > 0 ? Patient::inRandomOrder()->first()->id : null,
+            "client_id" => Client::count() > 0 ? Client::inRandomOrder()->first()->id : null,
             "description" => $this->faker->text($maxNbChars = 300),
             "diagnostico" => $this->faker->text($maxNbChars = 300),
             "medical" => json_encode([

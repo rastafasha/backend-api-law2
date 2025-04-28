@@ -17,18 +17,28 @@ class FavoriteResource extends JsonResource
     {
         return [
             "id"=>$this->resource->id,
-            // "user_id"=>$this->resource->user_id,
-            "user"=>$this->resource->user ? [
-                "id"=>$this->resource->user_id,
-                "username"=>$this->resource->user->username,
+            "user_id"=>$this->resource->user_id,
+            "cliente_id"=>$this->resource->cliente_id,
+            "profile"=>$this->resource->profile ? [
+                "id"=>$this->resource->profile->user_id,
+                "user_id"=>$this->resource->profile->user_id,
+                "nombre"=>$this->resource->profile->nombre,
+                "surname"=>$this->resource->profile->surname,
                 "email"=>$this->resource->user->email,
+                "speciality_id"=>$this->resource->profile->speciality_id,
+                "speciality"=>$this->resource->profile->speciality ? [
+                    "id"=>$this->resource->profile->speciality_id,
+                    "title"=>$this->resource->profile->speciality->title,
+                   
+                ]:NULL,
+
                 // "n_doc"=>$this->resource->n_doc,
-                // "phone"=>$this->resource->phone,
-                // "avatar"=> $this->resource->user->avatar ? env("APP_URL")."storage/".$this->resource->user->avatar : null,
+                "rating"=>$this->resource->profile->rating,
+                "avatar"=> $this->resource->profile->avatar ? env("APP_URL")."storage/".$this->resource->profile->avatar : null,
                 // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
             
             ]:NULL,
-            "cliente_id"=>$this->resource->cliente_id,
+            
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             

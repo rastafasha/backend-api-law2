@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Client;
 use App\Jobs\PaymentRegisterJob;
 use App\Mail\NewPaymentRegisterMail;
 use Illuminate\Support\Facades\Mail;
@@ -28,8 +29,8 @@ class Payment extends Model
         'monto',
         'nombre',
         'email',
-        'patient_id',
-        'appointment_id',
+        'user_id',
+        'client_id',
         'image',
         'fecha',
         'status'
@@ -84,9 +85,9 @@ class Payment extends Model
     {
         return $this->hasMany(Payment::class);
     }
-    public function appointment()
+    public function cliente()
     {
-        return $this->belongsTo(Appointment::class, 'appointment_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
 

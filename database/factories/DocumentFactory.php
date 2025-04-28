@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Document;
 use App\Models\User;
+use App\Models\Client;
+use App\Models\Document;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DocumentFactory extends Factory
@@ -27,7 +28,7 @@ class DocumentFactory extends Factory
             'user_id' => User::whereHas('roles', function($q) {
                 $q->where('name', 'MEMBER');
             })->inRandomOrder()->first()->id,
-            'client_id' => User::whereHas('roles', function($q) {
+            'client_id' => Client::whereHas('roles', function($q) {
                 $q->where('name', 'GUEST');
             })->inRandomOrder()->first()->id,
             // 'client_id' => null,

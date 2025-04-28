@@ -27,9 +27,8 @@ class CreatePresupuestosTable extends Migration
             
             
             // Provider IDs
-            $table->unsignedBigInteger('cliente_')->nullable();
-            // $table->unsignedBigInteger('n_doc')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('speciality_id')->nullable();
 
 
@@ -37,10 +36,10 @@ class CreatePresupuestosTable extends Migration
             $table->softDeletes();
 
             // Foreign keys for provider relationships
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('cliente_')->references('id')->on('users')->nullOnDelete();
-            // $table->foreign('n_doc')->references('n_doc')->on('patients')->nullOnDelete();
+            // $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            // $table->foreign('client_id')->references('id')->on('clients')->nullOnDelete();
             // $table->foreign('speciality_id')->references('id')->on('specialities')->nullOnDelete();
+            // $table->foreign('n_doc')->references('n_doc')->on('patients')->nullOnDelete();
             // $table->foreign('doctor_schedule_join_hour_id')->references('id')->on('doctor_schedule_join_hours')->nullOnDelete();
         });
     }

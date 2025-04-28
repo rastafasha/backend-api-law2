@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Client;
 use App\Models\Solicitud;
 use App\Models\SolicitudUser;
+use Illuminate\Database\Seeder;
 
 class SolicitudesSeeder extends Seeder
 {
     public function run()
     {
         // Get all guest users
-        $guests = User::whereHas('roles', function($q) {
+        $guests = Client::whereHas('roles', function($q) {
             $q->where('name', 'GUEST');
         })->get();
 
@@ -45,7 +46,7 @@ class SolicitudesSeeder extends Seeder
                 // Create complete solicitud_user records
                 SolicitudUser::create([
                     'solicitud_id' => $solicitud->id,
-                    'cliente_id' => $guest->id,
+                    'client_id' => $guest->id,
                     'user_id' => $member->id
                 ]);
             }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,7 +14,7 @@ class SolicitudUser extends Model
 
     protected $fillable = [
         'solicitud_id',
-        'cliente_id', 
+        'client_id', 
         'user_id'
     ];
 
@@ -24,11 +25,11 @@ class SolicitudUser extends Model
 
     public function cliente()
     {
-        return $this->belongsTo(User::class, 'cliente_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

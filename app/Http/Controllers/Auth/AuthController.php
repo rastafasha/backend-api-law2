@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\AuthRequest;
@@ -68,11 +69,80 @@ class AuthController extends Controller
         
     }
 
+    public function loginguest(Request $request)
+    {
+        $credentials = request()->only('email', 'password');
+
+        if (! $token = auth('client-api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized - Credenciales incorrectas'], 401);
+        }
+
+        $user = Client::where('email', request('email'))->firstOrFail();
+
+        $permissions = auth('client-api')->user()->getAllPermissions()->map(function($perm){
+            return $perm->name;
+        });
+        return response()->json([
+            'message' => "Inicio de sesión exitoso",
+            'access_token' => $this->respondWithTokenClient($token),
+            'token_type' => 'Bearer',
+            // 'user' => $user,
+            'user'=>[
+                "id"=>auth('client-api')->user()->id,
+                "username"=>auth('client-api')->user()->username,
+                // "avatar"=>auth('client-api')->user()->avatar,
+                // "rolename"=>auth('client-api')->user()->rolename,
+                "roles"=>auth('client-api')->user()->getRoleNames(),
+                "email"=>auth('client-api')->user()->email,
+                "permissions"=>$permissions,
+
+            ],
+        ], 201);
+        
+    }
+
     /**
      * Register a User
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
+
+       // $data = $request->only('name', 'surname', 'email', 'password', 'n_doc');
+       $data = $request->only('username',  'email', 'password', );
+
+       $validator = Validator::make($data, [
+           'username' => 'required|string|between:2,100',
+           // 'name' => 'required|string|between:2,100',
+           // 'surname' => 'required|string|between:2,100',
+           // 'n_doc' => 'required',
+           'email' => 'required|string|email|max:100|unique:users',
+           'password' => 'required|string|min:5',
+           'role' => Rule::in([User::GUEST]),
+       ]);
+       
+
+       if($validator->fails()){
+           return response()->json($validator->errors(), 422);
+       }
+
+       $user = User::create([
+           'username' => $request->username,
+           'email' => $request->email,
+           'password' => Hash::make($request->password),
+           'role' => User::GUEST,
+       ]);
+
+       $token = JWTAuth::fromUser($user);
+
+       return response()->json([
+           'message' => 'User registered successfully',
+           'user' => $user,
+           'access_token' => $token,
+           'token_type' => 'Bearer',
+       ], 201);
+
+    }
+    public function registerguest(Request $request) {
 
         // $data = $request->only('name', 'surname', 'email', 'password', 'n_doc');
         $data = $request->only('username',  'email', 'password', );
@@ -92,11 +162,11 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::create([
+        $user = Client::create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => User::GUEST,
+            'role' => Client::GUEST,
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -163,6 +233,26 @@ class AuthController extends Controller
                 // "avatar"=>auth('api')->user()->avatar,
                 "username"=>auth('api')->user()->username,
                 "email"=>auth('api')->user()->email,
+                "permissions"=>$permissions,
+
+            ],
+        ]);
+    }
+
+    protected function respondWithTokenClient($token)
+    {
+        $permissions = auth('client-api')->user()->getAllPermissions()->map(function($perm){
+            return $perm->name;
+        });
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('client-api')->factory()->getTTL() * 180,
+            // 'user'=>auth('client-api')->user(),
+            'user'=>[
+                // "avatar"=>auth('client-api')->user()->avatar,
+                "username"=>auth('client-api')->user()->username,
+                "email"=>auth('client-api')->user()->email,
                 "permissions"=>$permissions,
 
             ],
