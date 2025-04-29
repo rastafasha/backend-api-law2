@@ -17,6 +17,9 @@ Route::get('/profile/show/{profile}', [ProfileController::class, 'profileShow'])
 Route::get('/profile/showbyUser/{user}', [ProfileController::class, 'profilebyUser'])
     ->name('profile.profilebyUser');
 
+Route::get('/profile/showbyClient/{client}', [ProfileController::class, 'profilebyClient'])
+    ->name('profile.profilebyClient');
+
 Route::get('/profile/profilebyUserFiltered/', [ProfileController::class, 'profileFiltered'])
     ->name('profile.profileFiltered');
 // Route::get('/profile/profileFiltered/{pais?}/{speciality_id?}/{rating?}', [ProfileController::class, 'profileFiltered'])

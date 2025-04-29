@@ -113,7 +113,7 @@ class ProfileSeeder extends Seeder
                 'precios' => null,
                 'rating' => 1,
                 'speciality_id' => null,
-                'user_id' => 1,
+                'client_id' => 1,
             ],
 
             [
@@ -145,7 +145,7 @@ class ProfileSeeder extends Seeder
                 'precios' => null,
                 'rating' =>2,
                 'speciality_id' => null,
-                'user_id' => 2,
+                'client_id' => 2,
             ],
         ];
 

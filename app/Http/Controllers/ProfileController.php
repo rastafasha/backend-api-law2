@@ -164,6 +164,24 @@ class ProfileController extends Controller
          ], 200);
      }
 
+     public function profileByClient ($client_id)
+     {
+         $profile = Profile::where('client_id', $client_id)->first();
+
+         if (!$profile) {
+             return response()->json([
+                 'message' => 'Profile not found.'
+             ], 404);
+         }
+
+         return response()->json([
+             'code' => 200,
+             'status' => 'success',
+            //  'profile' => $profile,
+             'profile' => ProfileResource::make($profile),
+         ], 200);
+     }
+
      public function updateStatus(Request $request, $id)
     {
         

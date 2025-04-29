@@ -30,15 +30,15 @@ class SolicitudesController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'pedido' => 'required|json',
-            'cliente_id' => 'required|exists:users,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'pedido' => 'required|json',
+        //     'client_id' => 'required|exists:client,id',
+        //     'user_id' => 'required|exists:users,id',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 400);
+        // }
         $request->request->add(["pedido"=>json_encode($request->pedido)]);
         
         $solicitud = Solicitud::create([
@@ -48,7 +48,7 @@ class SolicitudesController extends Controller
 
         SolicitudUser::create([
             'solicitud_id' => $solicitud->id,
-            'cliente_id' => $request->cliente_id,
+            'client_id' => $request->client_id,
             'user_id' => $request->user_id
         ]);
 
