@@ -19,7 +19,7 @@ Route::get('solicitud/contactos-cliente/{id}', [SolicitudesController::class, 'c
 Route::get('solicitud/user/{user_id}', [SolicitudesController::class, 'getByUser'])
     ->name('solicitud.getByUser');
 
-Route::get('solicitud/cliente/{user_id}', [SolicitudesController::class, 'getByCliente'])
+Route::get('solicitud/cliente/{client_id}', [SolicitudesController::class, 'getByCliente'])
     ->name('solicitud.getByCliente');
 
 Route::post('solicitud/store', [SolicitudesController::class, 'store'])

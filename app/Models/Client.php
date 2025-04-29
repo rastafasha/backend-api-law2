@@ -110,7 +110,7 @@ class Client extends Authenticatable implements JWTSubject
 
     public function solicitudUsersAsCliente()
     {
-        return $this->hasMany(SolicitudUser::class, 'cliente_id');
+        return $this->hasMany(SolicitudUser::class, 'client_id');
     }
 
 

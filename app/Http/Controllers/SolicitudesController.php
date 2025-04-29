@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Client;
 use App\Models\Profile;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
@@ -78,10 +79,10 @@ class SolicitudesController extends Controller
     /**
      * Get solicitudes by client ID
      */
-    public function getByCliente($clienteId)
+    public function getByCliente($clientId)
     {
-        $cliente = User::findOrFail($clienteId);
-        $solicitudes = $cliente->solicitudUsersAsCliente()
+        $client = Client::findOrFail($clientId);
+        $solicitudes = $client->solicitudUsersAsCliente()
             ->with('solicitud')
             ->get()
             ->pluck('solicitud');
@@ -90,7 +91,7 @@ class SolicitudesController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'solicitudes' => $solicitudes,
-                'cliente' => $cliente,
+                'client' => $client,
                 // 'profile' => ProfileResource::make($profile),
             ], 200);
     }
@@ -126,9 +127,9 @@ class SolicitudesController extends Controller
         $usuarioData = [];
 
         if ($solicitud->client_id) {
-            $user = User::find($solicitud->client_id);
-            if ($user) {
-                $clienteData = $user->solicitudUsersAsCliente()
+            $client = Client::find($solicitud->client_id);
+            if ($client) {
+                $clienteData = $client->solicitudUsersAsCliente()
                     ->with('solicitud')
                     ->get()
                     ->pluck('solicitud');
@@ -136,9 +137,9 @@ class SolicitudesController extends Controller
         }
 
         if ($solicitud->user_id) {
-            $user2 = User::find($solicitud->user_id);
-            if ($user2) {
-                $usuarioData = $user2->solicitudUsersAsUser()
+            $user = User::find($solicitud->user_id);
+            if ($user) {
+                $usuarioData = $user->solicitudUsersAsUser()
                     ->with('solicitud')
                     ->get()
                     ->pluck('solicitud');
@@ -217,4 +218,5 @@ class SolicitudesController extends Controller
             'users' => $users,
         ], 200);
     }
+   
 }
