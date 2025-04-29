@@ -23,6 +23,7 @@ class Profile extends Model
         'email',
         'direccion',
         'pais',
+        'lang',
         'estado',
         'ciudad',
         'telhome',

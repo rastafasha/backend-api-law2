@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Document;
 
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\SolicitudUser;
 use App\Models\Document\Document;
@@ -129,6 +130,16 @@ class DocumentController extends Controller
 
 
     }
+    public function showByClient($client_id)
+    {
+        $documents = Document::where("client_id", $client_id)->get();
+
+        return response()->json([
+            "documents" => DocumentCollection::make($documents),
+        ]);
+
+
+    }
     public function showDocumentFiltered(Request $request)
     {
         $query = Document::query()
@@ -247,6 +258,7 @@ class DocumentController extends Controller
     {
         $document = Document::findOrFail($request->document_id);
         $user = User::findOrFail($request->user_id);
+        $client = Client::findOrFail($request->client_id);
 
         // Verificar que el usuario es dueño del documento
         if ($request->user_id != $user->id) {
@@ -256,9 +268,16 @@ class DocumentController extends Controller
             ], 403);
         }
 
+        if ($request->client_id != $client->id) {
+            return response()->json([
+                'message' => 'No existe este usuario',
+                'code' => 403
+            ], 403);
+        }
+
         // Verificar relación usuario-cliente en SolicitudUser
         $relationExists = SolicitudUser::where('user_id', $user->id)
-            ->where('cliente_id', $request->cliente_id)
+            ->where('client_id', $request->client_id)
             ->exists();
 
         if (!$relationExists) {
@@ -270,7 +289,7 @@ class DocumentController extends Controller
 
         // Actualizar documento con client_id
         $document->update([
-            'cliente_id' => $request->cliente_id
+            'client_id' => $request->client_id
         ]);
 
         return response()->json([

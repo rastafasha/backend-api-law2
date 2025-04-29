@@ -26,6 +26,7 @@ class CreateProfileTable extends Migration
             $table->text('direccion')->nullable();
             $table->text('description')->nullable();
             $table->string('pais')->nullable();
+            $table->string('lang')->nullable();
             $table->string('estado')->nullable();
             $table->string('ciudad')->nullable();
             $table->string('telhome')->nullable();

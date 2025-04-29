@@ -23,7 +23,7 @@ class SolicitudUser extends Model
         return $this->belongsTo(Solicitud::class);
     }
 
-    public function cliente()
+    public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
     }

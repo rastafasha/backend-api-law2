@@ -27,6 +27,7 @@ class ProfileResource extends JsonResource
             "n_doc"=>$this->resource->n_doc,
             "direccion"=>$this->resource->direccion,
             "pais"=>$this->resource->pais,
+            "lang"=>$this->resource->lang,
             "estado"=>$this->resource->estado,
             "ciudad"=>$this->resource->ciudad,
             "telhome"=>$this->resource->telhome,
