@@ -27,5 +27,15 @@ Route::get('/client/recientes/', [ClienteController::class, 'recientes'])
 Route::get('/client/search/{request}', [ClienteController::class, 'search'])
     ->name('clients.search');
 
+Route::get('/client/clientes-user/{user}', [ClienteController::class, 'clientesByUser'])
+    ->name('client.clientesByUser');
 
+Route::get('/client/contactos-cliente/{client}', [ClienteController::class, 'contactosByClient'])
+    ->name('/client.contactosByClient');
+
+Route::post('/client/addClienttoUser/{user}', [ClienteController::class, 'addClienttoUser'])
+    ->name('client.addClienttoUser');
+
+Route::delete('/client/removeClientFromUser/{client}', [ClienteController::class, 'removeClientFromUser'])
+    ->name('client.removeClientFromUser');
 

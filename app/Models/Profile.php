@@ -82,7 +82,7 @@ class Profile extends Model
     public function user(){
         return $this->belongsTo(User::class, 'id');
     }
-    public function cliente()
+    public function client()
     {
         return $this->hasMany(Client::class, 'client_id');
     }

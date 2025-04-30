@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Client;
+use App\Models\ClientsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -180,6 +182,123 @@ class ClienteController extends Controller
                 // "patient" => PatientCollection::make($patient) ,
             ], 200);
     }
+
+
+    public function addClienttoUser(Request $request){
+        $user = User::findOrFail($request->user_id);
+        $client = Client::findOrFail($request->client_id);
+
+        // Check if the client is already associated with the user
+        $existingAssociation = ClientsUser::where('user_id', $request->user_id)
+            ->where('client_id', $request->client_id)
+            ->first();
+
+        if ($existingAssociation) {
+            return response()->json([
+                'code' => 409,
+                'status' => 'error',
+                'message' => 'Client already associated with this user.',
+            ], 409);
+        }
+
+        // Create a new association
+        $association = new ClientsUser();
+        $association->user_id = $request->user_id;
+        $association->client_id = $request->client_id;
+        $association->save();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'message' => 'Client successfully added to user.',
+            'association' => $association,
+        ], 200);
+    }
+
+    public function removeClientFromUser(Request $request){
+        $user = User::findOrFail($request->user_id);
+        $client = Client::findOrFail($request->client_id);
+
+        // Check if the client is associated with the user
+        $association = ClientsUser::where('user_id', $request->user_id)
+            ->where('client_id', $request->client_id)
+            ->first();
+
+        if (!$association) {
+            return response()->json([
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'Client not associated with this user.',
+            ], 404);
+        }
+
+        // Delete the association
+        $association->delete();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'message' => 'Client successfully removed from user.',
+        ], 200);
+    }
+
+
+
+     /**
+     * Get all unique clients associated with a specific user through solicitudes
+     */
+
+    //  lista de clientes por usuario
+    public function clientesByUser($userId)
+    {
+        $user = User::findOrFail($userId);
+        
+        $clients = ClientsUser::where('user_id', $userId)
+            ->with(['client' => function($query) {
+                $query->select('id', 'username', 'email');
+            }])
+            ->get()
+            ->pluck('client')
+            ->unique('id')
+            ->values();
+
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'user' => $user,
+            'clients' => $clients,
+            
+        ], 200);
+    }
+    // lista de contactos por cliente
+    public function contactosByClient($clienteId)
+    {
+        $cliente = Client::findOrFail($clienteId);
+        
+        // Get all unique client users associated with this user through clientes
+        $users = ClientsUser::where('user_id', $clienteId)
+            ->get();
+        // Get all unique client users associated with this user through solicitudes
+        $users = ClientsUser::where('client_id', $clienteId)
+            ->with(['user' => function($query) {
+                $query->select('id', 'username', 'email');
+            }])
+            ->get()
+            
+            ->pluck('user')
+            ->unique('id')
+            ->values();
+       
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'cliente' => $cliente,
+            'users' => $users,
+        ], 200);
+    }
+    
 
 
     

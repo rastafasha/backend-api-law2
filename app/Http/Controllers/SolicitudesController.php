@@ -100,7 +100,7 @@ class SolicitudesController extends Controller
         $user = User::findOrFail($userId);
         $solicitudes = $user->solicitudUsersAsUser()
             ->with('solicitud')
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->pluck('solicitud');
 
@@ -169,54 +169,6 @@ class SolicitudesController extends Controller
         
     }
 
-    /**
-     * Get all unique clients associated with a specific user through solicitudes
-     */
-    public function clientesByUser($userId)
-    {
-        $user = User::findOrFail($userId);
-        $solicitud_status= Solicitud::where('status', 2)->get();
-        // Get all unique client users associated with this user through solicitudes
-        $clientes = SolicitudUser::where('user_id', $userId)
-            ->with(['client' => function($query) {
-                $query->select('id', 'username', 'email');
-            }])
-            ->get()
-            //sacamos el status de la solicitud
-            
-            ->pluck('cliente')
-            ->unique('id')
-            ->values();
-
-        return response()->json([
-            'code' => 200,
-            'status' => 'success',
-            'user' => $user,
-            'clientes' => $clientes,
-            'solicitud_status' => $solicitud_status,
-            
-        ], 200);
-    }
-    public function contactosByUser($clienteId)
-    {
-        $cliente = User::findOrFail($clienteId);
-        
-        // Get all unique client users associated with this user through solicitudes
-        $users = SolicitudUser::where('cliente_id', $clienteId)
-            ->with(['user' => function($query) {
-                $query->select('id', 'username', 'email');
-            }])
-            ->get()
-            ->pluck('user')
-            ->unique('id')
-            ->values();
-
-        return response()->json([
-            'code' => 200,
-            'status' => 'success',
-            'cliente' => $cliente,
-            'users' => $users,
-        ], 200);
-    }
+   
    
 }

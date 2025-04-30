@@ -16,24 +16,24 @@ class CreateProfileTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('gender')->nullable();
-            $table->tinyInteger('status')->default(1);
             $table->string('avatar')->nullable();
-            $table->string('n_doc', 50)->unique()->nullable();
-
-            $table->string('nombre');
-            $table->string('surname')->nullable();
-            $table->text('direccion')->nullable();
-            $table->text('description')->nullable();
-            $table->string('pais')->nullable();
-            $table->string('lang')->nullable();
-            $table->string('estado')->nullable();
             $table->string('ciudad')->nullable();
+            $table->text('description')->nullable();
+            $table->text('direccion')->nullable();
+            $table->string('estado')->nullable();
+            $table->tinyInteger('gender')->nullable();
+            $table->string('lang')->nullable();
+            $table->string('n_doc', 50)->unique()->nullable();
+            $table->string('nombre');
+            $table->tinyInteger('status')->default(1);
+
+            $table->string('surname')->nullable();
+            $table->string('pais')->nullable();
             $table->string('telhome')->nullable();
             $table->string('telmovil')->nullable();
+            $table->string('rating')->nullable();
             $table->json('redessociales')->nullable();
             $table->json('precios')->nullable();
-            $table->string('rating')->nullable();
 
             // Provider IDs
             $table->unsignedBigInteger('speciality_id')->nullable();

@@ -146,6 +146,9 @@ class DocumentController extends Controller
             ->when($request->user_id, function ($q) use ($request) {
                 return $q->where('user_id', $request->user_id);
             })
+            // ->when($request->client_id, function ($q) use ($request) {
+            //     return $q->where('client_id', $request->client_id);
+            // })
             ->when($request->name_category, function ($q) use ($request) {
                 return $q->where('name_category', $request->name_category);
             })
