@@ -69,6 +69,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     require __DIR__.'/api_routes/favorite.php';
     // client
     require __DIR__.'/api_routes/client.php';
+    // message
+    require __DIR__.'/api_routes/message.php';
 
 
     
