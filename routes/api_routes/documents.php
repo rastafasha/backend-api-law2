@@ -23,6 +23,9 @@ Route::get('/document/showbyclient/{client}', [DocumentController::class, 'showB
 Route::get('/document/showByCategory/{user}/{category_name}', [DocumentController::class, 'showByCategory'])
     ->name('document.showByCategory');
 
+Route::get('/document/showByClientCategory/{client}/{category_name}', [DocumentController::class, 'showByClientCategory'])
+    ->name('document.showByClientCategory');
+
 Route::get('/document/recientes', [DocumentController::class, 'recientes'])
     ->name('document.recientes');
 

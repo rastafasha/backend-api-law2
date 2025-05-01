@@ -181,6 +181,18 @@ class DocumentController extends Controller
 
 
     }
+    public function showByClientCategory($client_id, $name_category)
+    {
+        $documents = Document::where("client_id", $client_id)
+            ->where('name_category', $name_category)
+            ->get();
+
+        return response()->json([
+            "documents" => DocumentCollection::make($documents),
+        ]);
+
+
+    }
     /**
      * Update the specified resource in storage.
      *
