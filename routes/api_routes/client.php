@@ -33,9 +33,9 @@ Route::get('/client/clientes-user/{user}', [ClienteController::class, 'clientesB
 Route::get('/client/contactos-cliente/{client}', [ClienteController::class, 'contactosByClient'])
     ->name('/client.contactosByClient');
 
-Route::post('/client/addClienttoUser/{user}', [ClienteController::class, 'addClienttoUser'])
+Route::post('/client/addClienttoUser/', [ClienteController::class, 'addClienttoUser'])
     ->name('client.addClienttoUser');
 
-Route::delete('/client/removeClientFromUser/{client}', [ClienteController::class, 'removeClientFromUser'])
+Route::delete('/client/removeClientFromUser/{client}/{user}', [ClienteController::class, 'removeClientFromUser'])
     ->name('client.removeClientFromUser');
 

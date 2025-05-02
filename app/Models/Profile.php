@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Client;
 use App\Models\Speciality;
 use Illuminate\Database\Eloquent\Model;
@@ -80,7 +81,7 @@ class Profile extends Model
     */
 
     public function user(){
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function client()
     {

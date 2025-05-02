@@ -215,13 +215,13 @@ class ClienteController extends Controller
         ], 200);
     }
 
-    public function removeClientFromUser(Request $request){
-        $user = User::findOrFail($request->user_id);
-        $client = Client::findOrFail($request->client_id);
+    public function removeClientFromUser($user_id, $client_id){
+        $user = User::findOrFail($user_id);
+        $client = Client::findOrFail($client_id);
 
         // Check if the client is associated with the user
-        $association = ClientsUser::where('user_id', $request->user_id)
-            ->where('client_id', $request->client_id)
+        $association = ClientsUser::where('user_id', $user->id)
+            ->where('client_id', $client->id)
             ->first();
 
         if (!$association) {
@@ -268,6 +268,7 @@ class ClienteController extends Controller
             'status' => 'success',
             'user' => $user,
             'clients' => $clients,
+            
             
         ], 200);
     }

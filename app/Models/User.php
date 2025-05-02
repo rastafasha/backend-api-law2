@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Payment;
 use App\Models\Profile;
 use App\Models\Location;
+use App\Models\MessageUsers;
 use App\Traits\HavePermission;
 use App\Jobs\NewUserRegisterJob;
 use Laravel\Sanctum\HasApiTokens;
@@ -142,6 +143,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SolicitudUser::class, 'user_id');
     }
+
+    public function messageUsersAsUser()
+    {
+        return $this->hasMany(MessageUsers::class, 'user_id');
+    }
+
 
 
     

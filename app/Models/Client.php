@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Profile;
 use App\Models\Location;
+use App\Models\MessageUsers;
 use App\Traits\HavePermission;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Doctor\Specialitie;
@@ -111,6 +112,11 @@ class Client extends Authenticatable implements JWTSubject
     public function solicitudUsersAsCliente()
     {
         return $this->hasMany(SolicitudUser::class, 'client_id');
+    }
+
+    public function messagesUsersAsCliente()
+    {
+        return $this->hasMany(MessageUsers::class, 'client_id');
     }
 
 
