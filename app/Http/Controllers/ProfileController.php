@@ -39,10 +39,25 @@ class ProfileController extends Controller
     {
         $profile = null;
 
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("users", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
+        if($request->has('user_id')){
+            $profile = Profile::where('user_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                $path = Storage::putFile("users", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
         }
+        if($request->has('client_id')){
+            $profile = Profile::where('client_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                $path = Storage::putFile("clients", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
+        }
+
+        // if($request->hasFile('imagen')){
+        //     $path = Storage::putFile("users", $request->file('imagen'));
+        //     $request->request->add(["avatar"=>$path]);
+        // }
 
         $request->request->add(["redessociales"=>json_encode($request->redessociales)]);
         $request->request->add(["precios"=>json_encode($request->precios)]);
@@ -90,14 +105,36 @@ class ProfileController extends Controller
     {
         $profile = Profile::findOrFail($id);
         
-
-        if($request->hasFile('imagen')){
-            if($profile->avatar){
-                Storage::delete($profile->avatar);
+        if($request->has('user_id')){
+            $profile = Profile::where('user_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                if($profile->avatar){
+                    Storage::delete($profile->avatar);
+                }
+                $path = Storage::putFile("users", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
             }
-            $path = Storage::putFile("users", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
         }
+        if($request->has('client_id')){
+            $profile = Profile::where('client_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                if($profile->avatar){
+                    Storage::delete($profile->avatar);
+                }
+                $path = Storage::putFile("clients", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
+        }
+
+
+
+        // if($request->hasFile('imagen')){
+        //     if($profile->avatar){
+        //         Storage::delete($profile->avatar);
+        //     }
+        //     $path = Storage::putFile("users", $request->file('imagen'));
+        //     $request->request->add(["avatar"=>$path]);
+        // }
 
         $request->request->add(["redessociales"=>json_encode($request->redessociales)]);
         $request->request->add(["precios"=>json_encode($request->precios)]);

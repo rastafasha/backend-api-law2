@@ -7,13 +7,11 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\DocumentsUser;
 use App\Models\SolicitudUser;
-use App\Models\Document\Document;
+use App\Models\Document;
 use App\Http\Controllers\Controller;
-use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\DocumentCollection;
-use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DocumentController extends Controller
 {
@@ -66,19 +64,9 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        // $document = Appointment::findOrFail($request->user_id);
-
         $user_is_valid = Document::where("user_id", "<>", $request->user_id)->first();
         $client_is_valid = Document::where("client_id", "<>", $request->client_id)->first();
 
-        // if($user_is_valid){
-        //     return response()->json([
-        //         "message"=>403,
-        //         "message_text"=> 'el Appointment ya existe'
-        //     ]);
-        // }
-
-       
 
         foreach ($request->file("files") as $key => $file) {
             $extension = $file->getClientOriginalExtension();
@@ -149,9 +137,15 @@ class DocumentController extends Controller
 
     public function showByUser($user_id)
     {
-        $documents = DocumentsUser::where("user_id", $user_id)->get();
+        $documentUsers = DocumentsUser::where("user_id", $user_id)
+            ->where('user_id', $user_id)
+            ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
 
@@ -160,9 +154,14 @@ class DocumentController extends Controller
     public function showByClient($client_id)
     {
         
-        $documents = DocumentsUser::where("client_id", $client_id)->get();
-
+        $documentUsers = DocumentsUser::where("client_id", $client_id)
+            ->where('client_id', $client_id)
+            ->get();
+        $documents = $documentUsers->map(function ($documentUser) {
+                return $documentUser->document;
+            });
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
 
@@ -203,29 +202,39 @@ class DocumentController extends Controller
 
     public function showByCategory(Request $request )
     {
-        $documents = Document::where("user_id", $request->user_id)
+        $documentUsers = DocumentsUser::where("user_id", $request->user_id)
             ->where('client_id', $request->client_id)
-            ->where('name_category', $request->name_category)
+            ->whereHas('document', function ($query) use ($request) {
+                $query->where('name_category', $request->name_category);
+            })
             ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
 
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
-
-
     }
+
     public function showByClientCategory($client_id, $name_category)
     {
-        $documents = Document::where("client_id", $client_id)
-            ->where('name_category', $name_category)
+        $documentUsers = DocumentsUser::where("client_id", $client_id)
+            ->whereHas('document', function ($query) use ($name_category) {
+                $query->where('name_category', $name_category);
+            })
             ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
+
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
-
-
     }
     /**
      * Update the specified resource in storage.
