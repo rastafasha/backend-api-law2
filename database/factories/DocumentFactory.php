@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Client;
 use App\Models\Document;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,18 +18,11 @@ class DocumentFactory extends Factory
 
         return [
             'name_category' => $this->faker->word,
-            'name_file' => $this->faker->word.'.'.$type,
+            'name_file' => $this->faker->word . '.' . $type,
             'size' => $this->faker->randomElement($sizes),
             'resolution' => $type === 'pdf' ? 'N/A' : $this->faker->randomElement($resolutions),
-            'file' => 'documents/'.$this->faker->uuid.'.'.$type,
+            'file' => 'documents/' . $this->faker->uuid . '.' . $type,
             'type' => $type,
-            'user_id' => User::whereHas('roles', function($q) {
-                $q->where('name', 'MEMBER');
-            })->inRandomOrder()->first()->id,
-            'client_id' => Client::whereHas('roles', function($q) {
-                $q->where('name', 'GUEST');
-            })->inRandomOrder()->first()->id,
-            // 'client_id' => null,
         ];
     }
 }

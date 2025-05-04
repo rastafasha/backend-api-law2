@@ -21,17 +21,17 @@ class CreateProfileTable extends Migration
             $table->text('description')->nullable();
             $table->text('direccion')->nullable();
             $table->string('estado')->nullable();
-            $table->tinyInteger('gender')->nullable();
             $table->string('lang')->nullable();
             $table->string('n_doc', 50)->unique()->nullable();
             $table->string('nombre');
+            $table->tinyInteger('gender')->nullable();
             $table->tinyInteger('status')->default(1);
 
             $table->string('surname')->nullable();
             $table->string('pais')->nullable();
             $table->string('telhome')->nullable();
             $table->string('telmovil')->nullable();
-            $table->string('rating')->nullable();
+            $table->tinyInteger('rating')->nullable();
             $table->json('redessociales')->nullable();
             $table->json('precios')->nullable();
 

@@ -17,8 +17,6 @@ class DocumentResource extends JsonResource
     {
         return[
             'id'=>$this->resource-> id,
-            'user_id'=>$this->resource->user_id,
-            'client_id'=>$this->resource->client_id,
             'name_file'=> $this->resource->name_file,
             'name_category'=> $this->resource->name_category,
             'size'=> $this->resource->size,

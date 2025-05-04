@@ -195,6 +195,21 @@ class ProfileController extends Controller
         return $profile;
         
     }
+     public function updateRating(Request $request)
+    {
+        
+        $client = Profile::findOrfail($request->client_id);
+        $user = Profile::findOrfail($request->user_id);
+        $profile = Profile::where('user_id', $request->user_id)->where('client_id', $request->client_id)->first();
+        $profile->rating = $request->rating;
+        $profile->update();
+        // if($request->status ===2){
+        //     Mail::to($profile->email)->send(new UpdateStatusMail($user));
+        // }
+
+        return $profile;
+        
+    }
 
     public function recientes()
     {

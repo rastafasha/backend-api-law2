@@ -1,58 +1,59 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Document\DocumentController;
 
+// Route::apiResource('documents', DocumentController::class);
+
+
 Route::get('/documents', [DocumentController::class, 'index'])
-    ->name('document.index');
+    ->name('documents.index');
 
 Route::get('/documents/showByUserFiltered', [DocumentController::class, 'showDocumentFiltered'])
         ->name('documents.showDocumentFiltered');
         
-Route::get('/document/show/{document}', [DocumentController::class, 'show'])
-    ->name('document.show');
+Route::get('/documents/show/{document}', [DocumentController::class, 'show'])
+    ->name('documents.show');
 
-Route::get('/document/showbyuser/{user}', [DocumentController::class, 'showByUser'])
-    ->name('document.showByUser');
+Route::get('/documents/showbyuser/{user}', [DocumentController::class, 'showByUser'])
+    ->name('documents.showByUser');
 
-Route::get('/document/showbyclient/{client}', [DocumentController::class, 'showByClient'])
-    ->name('document.showByClient');
+Route::get('/documents/showbyclient/{client}', [DocumentController::class, 'showByClient'])
+    ->name('documents.showByClient');
     
 
-Route::get('/document/showByCategory/{user}/{category_name}', [DocumentController::class, 'showByCategory'])
-    ->name('document.showByCategory');
+Route::post('/documents/showByCategory/', [DocumentController::class, 'showByCategory'])
+    ->name('documents.showByCategory');
 
-Route::get('/document/showByClientCategory/{client}/{category_name}', [DocumentController::class, 'showByClientCategory'])
-    ->name('document.showByClientCategory');
+Route::get('/documents/showByClientCategory/{client}/{category_name}', [DocumentController::class, 'showByClientCategory'])
+    ->name('documents.showByClientCategory');
 
-Route::get('/document/recientes', [DocumentController::class, 'recientes'])
-    ->name('document.recientes');
+Route::get('/documents/recientes', [DocumentController::class, 'recientes'])
+    ->name('documents.recientes');
 
-Route::get('/document/destacados', [DocumentController::class, 'destacados'])
-    ->name('document.destacados');
+Route::get('/documents/destacados', [DocumentController::class, 'destacados'])
+    ->name('documents.destacados');
 
-Route::post('/document/store', [DocumentController::class, 'store'])
-    ->name('document.store');
+Route::post('/documents/store', [DocumentController::class, 'store'])
+    ->name('documents.store');
 
-Route::put('/document/update/{document}', [DocumentController::class, 'documentUpdate'])
-    ->name('document.update');
+Route::put('/documents/update/{document}', [DocumentController::class, 'documentUpdate'])
+    ->name('documents.update');
 
-Route::put('/document/update/status/{document:id}', [DocumentController::class, 'documentUpdateStatus'])
-    ->name('document.status');
+Route::put('/documents/update/status/{document:id}', [DocumentController::class, 'documentUpdateStatus'])
+    ->name('documents.status');
 
-Route::get('/document/search/', [DocumentController::class, 'search'])
-    ->name('document.search');
+Route::get('/documents/search/', [DocumentController::class, 'search'])
+    ->name('documents.search');
 
-Route::delete('/document/destroy/{document}', [DocumentController::class, 'destroy'])
-    ->name('document.destroy');
+Route::delete('/documents/destroy/{document}', [DocumentController::class, 'destroy'])
+    ->name('documents.destroy');
 
-Route::post('/document/share/', [DocumentController::class, 'shareToClient'])
-    ->name('document.share');
-// Route::post('/document/share/{document}/{client}', [DocumentController::class, 'shareToClient'])
-//     ->name('document.share');
+Route::post('/documents/share/', [DocumentController::class, 'shareToClient'])
+    ->name('documents.share');
+
     
 
-Route::post('/document/sharegroup/{document}/{client}/{namecategory}', [DocumentController::class, 'shareGroupClientByNameCategory'])
-    ->name('document.shareGroupClientByNameCategory');
+Route::post('/documents/sharegroup/{document}/{client}/{namecategory}', [DocumentController::class, 'shareGroupClientByNameCategory'])
+    ->name('documents.shareGroupClientByNameCategory');
 

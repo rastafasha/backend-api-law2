@@ -8,6 +8,9 @@ use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\Profile\ProfileResource;
 use App\Http\Resources\Patient\PatientCollection;
 
 class AdminUserController extends Controller
@@ -74,16 +77,17 @@ class AdminUserController extends Controller
             //     // "payments",
             //     "profiles",
             // ])
-            ->with([
-                // "payments",
-                "profile",
-            ])
+            // ->with([
+            //     // "payments",
+            //     "profile",
+            // ])
             ->find($user);
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
             'user' => $user,
+            // 'user' => UserResource::make($user),
         ], 200);
     }
 

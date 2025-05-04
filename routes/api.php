@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DocumentController;
+
 
 
 use Illuminate\Support\Facades\Artisan;
@@ -71,6 +73,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     require __DIR__.'/api_routes/client.php';
     // message
     require __DIR__.'/api_routes/message.php';
+    // comments
+    require __DIR__.'/api_routes/comments.php';
 
 
     
