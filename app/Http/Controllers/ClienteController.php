@@ -57,8 +57,10 @@ class ClienteController extends Controller
             //     // "payments",
             //     "profiles",
             // ])
-            ->with([
-                // "payments",
+            // traemos la relacion con clients_user
+            
+                ->with([
+                "clients_user",
                 "profile",
             ])
             ->find($client);
@@ -216,8 +218,32 @@ class ClienteController extends Controller
     }
 
     public function removeClientFromUser($user_id, $client_id){
-        $user = User::findOrFail($user_id);
-        $client = Client::findOrFail($client_id);
+        // Validate parameters
+        if (!$user_id || !$client_id) {
+            return response()->json([
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'User ID and Client ID are required.',
+            ], 400);
+        }
+
+        $user = User::find('id',$user_id);
+        if (!$user) {
+            return response()->json([
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        $client = Client::find('id',$client_id);
+        if (!$client) {
+            return response()->json([
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'Client not found.',
+            ], 404);
+        }
 
         // Check if the client is associated with the user
         $association = ClientsUser::where('user_id', $user->id)

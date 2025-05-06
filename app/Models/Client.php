@@ -100,9 +100,10 @@ class Client extends Authenticatable implements JWTSubject
     |--------------------------------------------------------------------------
     */
 
-
-
-   
+    public function clients_user()
+    {
+        return $this->hasMany(ClientsUser::class, 'client_id');
+    }
 
     public function profile()
     {
