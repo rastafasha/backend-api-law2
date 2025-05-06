@@ -22,7 +22,7 @@ Route::get('/documents/showbyclient/{client}', [DocumentController::class, 'show
     ->name('documents.showByClient');
     
 
-Route::post('/documents/showByCategory/', [DocumentController::class, 'showByCategory'])
+Route::get('/documents/showByCategory/{client}/{category_name}', [DocumentController::class, 'showByCategory'])
     ->name('documents.showByCategory');
 
 Route::get('/documents/showByClientCategory/{client}/{category_name}', [DocumentController::class, 'showByClientCategory'])
