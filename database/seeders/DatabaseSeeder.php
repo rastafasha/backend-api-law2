@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(TiposDePagoSeeder::class);
         $this->call(DocumentSeeder::class);
         $this->call(SolicitudesSeeder::class);
+        $this->call(CommentSeeder::class);
         $this->call(FavoriteSeeder::class);
 
     }

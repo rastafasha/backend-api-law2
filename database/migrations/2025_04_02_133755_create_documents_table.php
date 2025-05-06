@@ -23,8 +23,8 @@ class CreateDocumentsTable extends Migration
             $table->string('file', 250);
             $table->string('type', 50);
             // Provider IDs
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('client_id')->nullable();
+            // $table->unsignedBigInteger('user_id')->nullable();
+            // $table->unsignedBigInteger('client_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

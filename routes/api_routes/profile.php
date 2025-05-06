@@ -31,8 +31,8 @@ Route::get('/profile/recientes', [ProfileController::class, 'recientes'])
 Route::get('/profile/destacados', [ProfileController::class, 'destacados'])
     ->name('profile.destacados');
 
-Route::post('/profile/update/{profile}', [ProfileController::class, 'profileUpdate'])
-    ->name('profile.update');
+Route::post('/profile/update/{id}', [ProfileController::class, 'profileUpdate'])
+    ->name('profile.profileUpdate');
 
 Route::delete('/profile/destroy/{profile}', [ProfileController::class, 'destroy'])
     ->name('profile.destroy');
@@ -40,5 +40,8 @@ Route::delete('/profile/destroy/{profile}', [ProfileController::class, 'destroy'
 
 Route::put('/profile/update/status/{profile:id}', [ProfileController::class, 'updateStatus'])
     ->name('profile.updateStatus');
+
+Route::put('/profile/update/rating/', [ProfileController::class, 'updateRating'])
+    ->name('profile.updateRating');
 
 

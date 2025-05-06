@@ -39,10 +39,25 @@ class ProfileController extends Controller
     {
         $profile = null;
 
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("users", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
+        if($request->has('user_id')){
+            $profile = Profile::where('user_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                $path = Storage::putFile("users", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
         }
+        if($request->has('client_id')){
+            $profile = Profile::where('client_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                $path = Storage::putFile("clients", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
+        }
+
+        // if($request->hasFile('imagen')){
+        //     $path = Storage::putFile("users", $request->file('imagen'));
+        //     $request->request->add(["avatar"=>$path]);
+        // }
 
         $request->request->add(["redessociales"=>json_encode($request->redessociales)]);
         $request->request->add(["precios"=>json_encode($request->precios)]);
@@ -90,14 +105,36 @@ class ProfileController extends Controller
     {
         $profile = Profile::findOrFail($id);
         
-
-        if($request->hasFile('imagen')){
-            if($profile->avatar){
-                Storage::delete($profile->avatar);
+        if($request->has('user_id')){
+            $profile = Profile::where('user_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                if($profile->avatar){
+                    Storage::delete($profile->avatar);
+                }
+                $path = Storage::putFile("users", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
             }
-            $path = Storage::putFile("users", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
         }
+        if($request->has('client_id')){
+            $profile = Profile::where('client_id', $request->user_id)->first();
+            if($request->hasFile('imagen')){
+                if($profile->avatar){
+                    Storage::delete($profile->avatar);
+                }
+                $path = Storage::putFile("clients", $request->file('imagen'));
+                $request->request->add(["avatar"=>$path]);
+            }
+        }
+
+
+
+        // if($request->hasFile('imagen')){
+        //     if($profile->avatar){
+        //         Storage::delete($profile->avatar);
+        //     }
+        //     $path = Storage::putFile("users", $request->file('imagen'));
+        //     $request->request->add(["avatar"=>$path]);
+        // }
 
         $request->request->add(["redessociales"=>json_encode($request->redessociales)]);
         $request->request->add(["precios"=>json_encode($request->precios)]);
@@ -187,6 +224,21 @@ class ProfileController extends Controller
         
         $profile = Profile::findOrfail($id);
         $profile->status = $request->status;
+        $profile->update();
+        // if($request->status ===2){
+        //     Mail::to($profile->email)->send(new UpdateStatusMail($user));
+        // }
+
+        return $profile;
+        
+    }
+     public function updateRating(Request $request)
+    {
+        
+        $client = Profile::findOrfail($request->client_id);
+        $user = Profile::findOrfail($request->user_id);
+        $profile = Profile::where('user_id', $request->user_id)->where('client_id', $request->client_id)->first();
+        $profile->rating = $request->rating;
         $profile->update();
         // if($request->status ===2){
         //     Mail::to($profile->email)->send(new UpdateStatusMail($user));

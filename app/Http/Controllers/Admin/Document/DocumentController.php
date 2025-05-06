@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Admin\Document;
 use App\Models\User;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Models\DocumentsUser;
 use App\Models\SolicitudUser;
-use App\Models\Document\Document;
+use App\Models\Document;
 use App\Http\Controllers\Controller;
-use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\DocumentCollection;
-use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DocumentController extends Controller
 {
@@ -65,16 +64,9 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        // $document = Appointment::findOrFail($request->user_id);
-
         $user_is_valid = Document::where("user_id", "<>", $request->user_id)->first();
+        $client_is_valid = Document::where("client_id", "<>", $request->client_id)->first();
 
-        // if($user_is_valid){
-        //     return response()->json([
-        //         "message"=>403,
-        //         "message_text"=> 'el Appointment ya existe'
-        //     ]);
-        // }
 
         foreach ($request->file("files") as $key => $file) {
             $extension = $file->getClientOriginalExtension();
@@ -89,6 +81,7 @@ class DocumentController extends Controller
 
             $document = Document::create([
                 'user_id' => $request->user_id,
+                'client_id' => $request->client_id,
                 'name_file' => $name_file,
                 'name_category' => $request->name_category,
                 'size' => $size,
@@ -96,6 +89,25 @@ class DocumentController extends Controller
                 'file' => $path,
                 'type' => $extension,
             ]);
+        }
+
+         // Attach users and clients in documents_users pivot table
+         if ($request->has('user_ids')) {
+            foreach ($request->input('user_ids') as $userId) {
+                DocumentsUser::create([
+                    'document_id' => $document->id,
+                    'user_id' => $userId,
+                ]);
+            }
+        }
+
+        if ($request->has('client_ids')) {
+            foreach ($request->input('client_ids') as $clientId) {
+                DocumentsUser::create([
+                    'document_id' => $document->id,
+                    'client_id' => $clientId,
+                ]);
+            }
         }
 
         // error_log($clase);
@@ -112,7 +124,10 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        $document = Document::findOrFail($id);
+        $document = Document::with('documentsUsers')->find($id);
+        if (!$document) {
+            return response()->json(['message' => 'Document not found'], 404);
+        }
 
         return response()->json([
             "document" => DocumentResource::make($document),
@@ -122,9 +137,15 @@ class DocumentController extends Controller
 
     public function showByUser($user_id)
     {
-        $documents = Document::where("user_id", $user_id)->get();
+        $documentUsers = DocumentsUser::where("user_id", $user_id)
+            ->where('user_id', $user_id)
+            ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
 
@@ -132,14 +153,23 @@ class DocumentController extends Controller
     }
     public function showByClient($client_id)
     {
-        $documents = Document::where("client_id", $client_id)->get();
-
+        
+        $documentUsers = DocumentsUser::where("client_id", $client_id)
+            ->where('client_id', $client_id)
+            ->get();
+        $documents = $documentUsers->map(function ($documentUser) {
+                return $documentUser->document;
+            });
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
 
 
     }
+
+    
+
     public function showDocumentFiltered(Request $request)
     {
         $query = Document::query()
@@ -169,17 +199,42 @@ class DocumentController extends Controller
 
     }
 
-    public function showByCategory($user_id, $name_category)
+
+    public function showByCategory(Request $request )
     {
-        $documents = Document::where("user_id", $user_id)
-            ->where('name_category', $name_category)
+        $documentUsers = DocumentsUser::where("user_id", $request->user_id)
+            ->where('client_id', $request->client_id)
+            ->whereHas('document', function ($query) use ($request) {
+                $query->where('name_category', $request->name_category);
+            })
             ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
+
         return response()->json([
+            // "documents" => $documents,
             "documents" => DocumentCollection::make($documents),
         ]);
+    }
 
+    public function showByClientCategory($client_id, $name_category)
+    {
+        $documentUsers = DocumentsUser::where("client_id", $client_id)
+            ->whereHas('document', function ($query) use ($name_category) {
+                $query->where('name_category', $name_category);
+            })
+            ->get();
 
+        $documents = $documentUsers->map(function ($documentUser) {
+            return $documentUser->document;
+        });
+
+        return response()->json([
+            // "documents" => $documents,
+            "documents" => DocumentCollection::make($documents),
+        ]);
     }
     /**
      * Update the specified resource in storage.
@@ -190,11 +245,33 @@ class DocumentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $Document = Document::findOrFail($id);
-        $Document->update($request->all());
+        $document = Document::findOrFail($id);
+        $document->update($request->all());
+
+         // Remove existing relations
+         DocumentsUser::where('document_id', $document->id)->delete();
+
+         // Attach new users and clients
+         if ($request->has('user_ids')) {
+             foreach ($request->input('user_ids') as $userId) {
+                 DocumentsUser::create([
+                     'document_id' => $document->id,
+                     'user_id' => $userId,
+                 ]);
+             }
+         }
+ 
+         if ($request->has('client_ids')) {
+             foreach ($request->input('client_ids') as $clientId) {
+                 DocumentsUser::create([
+                     'document_id' => $document->id,
+                     'client_id' => $clientId,
+                 ]);
+             }
+         }
 
         return response()->json([
-            'Document' => DocumentResource::make($Document)
+            'Document' => DocumentResource::make($document)
         ]);
     }
     public function addFiles(Request $request)
@@ -241,8 +318,13 @@ class DocumentController extends Controller
      */
     public function destroy(string $id)
     {
-        $document = Document::findOrFail($id);
+         $document = Document::find($id);
+        if (!$document) {
+            return response()->json(['message' => 'Document not found'], 404);
+        }
+        DocumentsUser::where('document_id', $document->id)->delete();
 
+        // Delete related documents_users entries
 
         if ($document->avatar) {
             Storage::delete($document->avatar);
